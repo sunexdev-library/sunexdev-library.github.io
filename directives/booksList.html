@@ -1,0 +1,61 @@
+﻿<div class="text-center" 
+     ng-if="vm.pagesList.length > 1">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li ng-class="{'disabled': !vm.allowBack}">
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li ng-repeat="page in vm.pagesList">
+                <a href="#" ng-class="{'active': page.active}" ng-click="vm.setPage(page.page)">{{page.page + 1}}</a>
+            </li>
+            <li ng-class="{'disabled': !vm.allowNext}">
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="col-sm-6 col-md-4 col-lg-3"
+         ng-repeat="book in vm.booksList">
+        <div class="thumbnail flexbox"
+             ng-click="vm.selectBook(book)">
+            <img src="http://privlib.alterfin.ru{{book.imageURL}}" alt="{{book.title}}">
+            <div class="caption">
+                <h3>{{book.getAuthor().Name}}</h3>
+                <p class="book-title">{{book.title}}</p>
+            <!--
+            <p><i class="fa fa-building-o" aria-hidden="true"></i> {{book.getPublisher().Name}} | <label class="label label-default">{{book.getStorages().Name}}</label>
+                -->
+                </p>
+                <p class="description">{{book.description}}</p>
+            </div>
+            <div class="white-shadow"></div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center"
+      ng-if="vm.pagesList.length > 1">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li ng-class="{'disabled': !vm.allowBack}">
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li ng-repeat="page in vm.pagesList">
+                <a href="#" ng-class="{'active': page.active}" ng-click="vm.setPage(page.page)">{{page.page + 1}}</a>
+            </li>
+            <li ng-class="{'disabled': !vm.allowNext}">
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

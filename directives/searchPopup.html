@@ -1,0 +1,18 @@
+﻿<div class="row"
+     ng-controller="searchPopupController as vm">
+    <div class="col-md-6"> 
+        <p class="search-results"><span>&nbsp;ПЕРСОНЫ </span></p>
+        <div class="row">
+            <div class="fullwidth" ng-repeat="author in vm.authors | limitTo: 8">
+                <p class="search-results-person" 
+                   ng-click="vm.authorSelected(author)"><img src="/img/author.png" /> {{author.Name || author.name}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6"> 
+        <p class="search-results"><span>&nbsp;НАЙТИ КНИГУ </span></p>
+        <img class="scanner-img" src="/img/scanner.jpg"/>
+        <p class="search-scanner-title">Сканирование</p>
+        <p>Для поиска книги по её RFID метке отсканируйте её при помощи Feig OBID сканера</p>
+    </div>
+</div>

@@ -1,0 +1,107 @@
+﻿<html lang="ru">
+<head>
+    
+    <!-- For search engines & browser -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+
+    <!-- Externals -->
+    <script type="text/javascript" src="external/firebase.js"></script>
+    <script type="text/javascript" src="external/jquery.min.js"></script>
+    <script type="text/javascript" src="external/jquery-ui.js"></script>
+    <script type="text/javascript" src="external/bootstrap.min.js"></script>
+    <script type="text/javascript" src="external/angular.js"></script>
+    <script type="text/javascript" src="external/angular-ui.js"></script>
+    <script type="text/javascript" src="external/angular-ui-router.js"></script>
+    <script type="text/javascript" src="external/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="external/ui-bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/barcode.css">
+
+    <!-- Internals -->
+    <script type="text/javascript" src="js/module.js"></script>
+    <script type="text/javascript" src="js/service.logger.js"></script>
+    <script type="text/javascript" src="js/service.events.js"></script>
+    <script type="text/javascript" src="js/service.firebase.js"></script>
+    <script type="text/javascript" src="js/service.messenger.js"></script>
+    <script type="text/javascript" src="js/service.tagsSource.js"></script>
+    <script type="text/javascript" src="js/service.library.js"></script>
+    <script type="text/javascript" src="js/service.cache.js"></script>
+    <script type="text/javascript" src="js/service.search.js"></script>
+    <script type="text/javascript" src="js/directive.angledNavbar.js"></script>
+    <script type="text/javascript" src="js/directive.booksList.js"></script>
+    <script type="text/javascript" src="js/directive.bookDescription.js"></script>
+    <script type="text/javascript" src="js/directive.barcode.js"></script>
+    <script type="text/javascript" src="js/directive.sidebar.js"></script>
+    <script type="text/javascript" src="js/controller.index.js"></script>
+    <script type="text/javascript" src="js/controller.searchPopup.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+
+    <!-- Other metadata -->
+    <title>Частная библиотека</title>
+</head>
+<body ng-app="mainModule" ng-controller="indexController">
+    <div class="container-fluid">
+        <img class="fullwidth" src="img/books.png" />
+        
+        <!-- http://codepen.io/m-e-conroy/pen/bcEsA -->
+        <angled-navbar menus='menus' navfn ='navfn(action)' inverse='inverse'></angled-navbar>
+
+        <ol class="breadcrumb">
+            <li ng-repeat="cat in choosedCategory.path"
+                ng-class="{'active': $last}">
+                <a href="#"
+                   ng-click="searchByCategory(cat)">{{cat.Title}}</a>
+            </li>
+        </ol>
+        <div class="row">
+            <div class="col-lg-offset-1 col-md-offset-0 col-md-2">
+                <sidebar top-authors="cache.top_authors"
+                         top-storages="cache.top_storages"
+                         top-categories="cache.top_categories">
+                </sidebar>
+            </div>
+            <div class="col-lg-8 col-md-10">
+                <book-description ng-if="template == 'book-description'" 
+                                  book="openedBook"
+                                  category="choosedCategory"
+                                  on-closed="openSearchResults()"></book-description>
+
+                <div class="fullwidth row"
+                     ng-show="template == 'books-list'">
+                    <form>
+                        <div class="search-top-wrapper"
+                             uib-popover-template="popupHtml.templateUrl"
+                             popover-is-open="searchFieldFocused"
+                             popover-placement="bottom-left"
+                             popover-class="fullwidth"
+                             ng-click="searchFieldFocused=true">
+                            <input autocomplete="off" maxlength="100"
+                                   class="search-top-input"
+                                   type="text" value="" placeholder="Поиск в Библиотеке"
+                                   ng-model="searchString"
+                                   ng-change="startSearch(searchString)"
+                            >
+                        </div>
+                    </form>
+                </div>
+
+                <books-list selected-book="openedBook"
+                            ng-show="template == 'books-list'" />
+            </div>
+        </div>
+    </div>
+
+    <br /><br />
+    <div class="fullwidth floatingFooter">
+        <console-footer></console-footer>
+    </div>
+
+<hr />
+</body>
+</html>

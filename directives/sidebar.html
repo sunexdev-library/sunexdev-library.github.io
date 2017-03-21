@@ -1,0 +1,20 @@
+﻿<ol class="breadcrumb"><li>Авторы</li></ol>
+<ul class="nav nav-pills">
+    <li role="presentation" class="fullwidth" ng-repeat="item in vm.topAuthors | limitTo : 10">
+        <a href="#" ng-click="vm.searchByAuthor(item)">{{item.name}} <span class="gray">{{item.booksCount}}</span></a>
+    </li>
+</ul>
+<br />
+<ol class="breadcrumb"><li>Места хранения</li></ol>
+<ul class="nav nav-pills">
+    <li role="presentation" class="fullwidth" ng-repeat="item in vm.topStorages | limitTo : 5">
+        <a href="#" ng-click="vm.searchByStorage(item)">{{item.name}} <span class="gray">{{item.booksCount}}</span></a>
+    </li>
+</ul>
+<br />
+<ol class="breadcrumb"><li>Категории</li></ol>
+<ul class="nav nav-pills">
+    <li role="presentation" class="fullwidth" ng-repeat="item in vm.topCategories | limitTo : 5">
+        <a href="#" ng-click="vm.searchByCategory(item)">{{item.Title}} <span class="gray">{{item.booksCount}}</span></a>
+    </li>
+</ul>

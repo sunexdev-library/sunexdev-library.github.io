@@ -1,0 +1,44 @@
+﻿<html>
+    <head>        <!-- For search engines & browser -->
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="googlebot" content="noindex, nofollow">
+
+        <!-- Externals -->
+        <script type="text/javascript" src="external/firebase.js"></script>
+        <script type="text/javascript" src="external/jquery-1.9.1.js"></script>
+        <script type="text/javascript" src="external/jquery-ui.js"></script>
+        <script type="text/javascript" src="external/angular.js"></script>
+        <script type="text/javascript" src="external/angular-ui.js"></script>
+        <script type="text/javascript" src="external/angular-ui-router.js"></script>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/jquery-ui.css">
+        <link rel="stylesheet" type="text/css" href="css/angular-ui.min.css">
+
+        <!-- Internals -->
+        <script type="text/javascript" src="js/module.js"></script>
+        <script type="text/javascript" src="js/service.events.js"></script>
+        <script type="text/javascript" src="js/service.firebase.js"></script>
+        <script type="text/javascript" src="js/service.messenger.js"></script>
+        <script type="text/javascript" src="js/service.tagsSource.js"></script>
+        <script type="text/javascript" src="js/service.library.js"></script>
+        <script type="text/javascript" src="js/service.cache.js"></script>
+        <script type="text/javascript" src="js/controller.index.js"></script>
+        <link rel="stylesheet" href="css/style.css">
+
+        <!-- Other metadata -->
+        <title>Частная библиотека</title>
+    </head>
+<body ng-app="mainModule" ng-controller="indexController">
+    {{db.__version}}
+    <div ng-repeat="item in db.authors track by $index">
+        <strong>{{item.Name}}</strong> {{item.books.length}}
+    </div>
+
+        <ui-view></ui-view>
+
+        <script type="text/ng-template" id="library">
+            <h1>Library</h1>
+        </script>
+</body>
+</html>
