@@ -1,4 +1,4 @@
-﻿(function (angular) {
+(function (angular) {
     'use strict';
 
     angular
@@ -10,10 +10,13 @@
 
         var TMPs = {
             BOOKS_LIST: "books-list",
-            BOOK_DESCRIPTION: "book-description"
+            BOOK_DESCRIPTION: "book-description",
+            ADD_NEW_BOOK: "add-new-book"
         }
 
         var model = $scope;
+        window.controller = model;
+
         model.popupHtml = {
             templateUrl: 'directives/searchPopup.html',
             title: 'Title'
@@ -69,8 +72,31 @@
 
         events.subscribe(tagsSource, 'onDevicesChanged', function() {
             model.devices = model.tagsSource.devices;
-            log(angular.toJson(model.devices));
+            console.log(angular.toJson(model.devices));
             $scope.$apply();
+        });
+
+        events.subscribe(tagsSource, 'onTagReceived', function(data) {
+            if(model.template !== TMPs.BOOKS_LIST) {
+                return;
+            }
+
+            if(model.searchString) {
+                model.searchString = model.searchString + ", " + data.Tag;
+            } else {                
+                model.searchString = data.Tag;
+            }
+            
+            model.startSearch(model.searchString);
+            $scope.$apply();
+        });
+
+        events.subscribe(tagsSource, 'onTagLost', function(data) {
+            if(model.searchString && model.searchString.trim() !== "") {
+                model.searchString = model.searchString.replace(", "+data.Tag, "").replace(data.Tag, "");
+                model.startSearch(model.searchString);
+                $scope.$apply();
+            }
         });
 
         initializeWorkWithCache();
@@ -110,7 +136,7 @@
         model.rpCall = function () {
             model.$apply();
             messenger.rpCall("DownloadByIsbn", ["9785953947923"], function (bookInfo) {
-                log(bookInfo);
+                console.log(bookInfo);
             });
         }
         
@@ -130,6 +156,11 @@
         model.openSearchResults = function() {
             model.template = TMPs.BOOKS_LIST;
         }
+
+        model.openAddNewBook = function() {
+            model.template = TMPs.ADD_NEW_BOOK;
+        }
+
         return model;
     }]);
 })(window.angular);

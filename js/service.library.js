@@ -10,6 +10,7 @@
 
                 var model = this;
                 model.__log = log;
+                model.mappings = {};
                 model.books = [];
                 model.authors = [];
                 model.categories = [];
@@ -19,7 +20,8 @@
                 model.series = [];
                 model.__version = 0;
 
-
+                window.__library = model;
+                    
                 // subscribe for tables changes
                 events.subscribe(firebase,
                     "onTableLoaded",
@@ -34,12 +36,17 @@
 
                         if (table !== 'books') {
                             data = firebase.data[table].data;
-                            for (idx in data) {
-                                item = data[idx];
-                                var copy = angular.copy(item.row);
-                                copy.books = [];
-                                copy.id = item.id;
-                                model[table][item.id] = copy;
+                            if(Array.isArray(data))
+                            {
+                                for (idx in data) {
+                                    item = data[idx];
+                                    var copy = angular.copy(item.row);
+                                    copy.books = [];
+                                    copy.id = item.id;
+                                    model[table][item.id] = copy;
+                                }
+                            } else {
+                                model[table] = angular.copy(data);
                             }
                         } else {
                             data = firebase.data[table].data;
@@ -144,7 +151,6 @@
 
                 model.packBook = function(book) {
                     return {
-                        bookId: book.Bookid,
                         description: book.Comment,
                         getAuthor: function () {
                             return model.authors[book.Id_author];
@@ -183,6 +189,7 @@
                             return book.Id_store >= 0;
                         },
                         imageURL: book.ImageURL,
+                        rfid: book.Bookid,
                         isbn: book.Isbn,
                         releaseDate: book.Release_Date,
                         shortComment: book.Shortcom,
@@ -192,7 +199,7 @@
 
                 model.unpackBook = function(book) {
                     return {
-                        Bookid: book.bookId,
+                        Bookid: book.rfid,
                         Comment: prep(book.description),
                         Id_author:  prep(book.getAuthor(), 'id'),
                         Id_cat:  prep(book.getCategory(), 'id'),

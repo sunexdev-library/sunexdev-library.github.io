@@ -14,11 +14,13 @@
     <script type="text/javascript" src="external/angular.js"></script>
     <script type="text/javascript" src="external/angular-ui.js"></script>
     <script type="text/javascript" src="external/angular-ui-router.js"></script>
+    <script type="text/javascript" src="external/angular-ui-select.js"></script>
     <script type="text/javascript" src="external/angular-sanitize.min.js"></script>
     <script type="text/javascript" src="external/ui-bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/jquery-ui.css">
     <link rel="stylesheet" href="css/barcode.css">
+    <link rel="stylesheet" href="css/angular-ui-select.min.css">
 
     <!-- Internals -->
     <script type="text/javascript" src="js/module.js"></script>
@@ -32,7 +34,10 @@
     <script type="text/javascript" src="js/service.search.js"></script>
     <script type="text/javascript" src="js/directive.angledNavbar.js"></script>
     <script type="text/javascript" src="js/directive.booksList.js"></script>
+    <script type="text/javascript" src="js/directive.newBook.js"></script>
+    <script type="text/javascript" src="js/directive.addNewbook.js"></script>
     <script type="text/javascript" src="js/directive.bookDescription.js"></script>
+    <script type="text/javascript" src="js/directive.consoleFooter.js"></script>
     <script type="text/javascript" src="js/directive.barcode.js"></script>
     <script type="text/javascript" src="js/directive.sidebar.js"></script>
     <script type="text/javascript" src="js/controller.index.js"></script>
@@ -50,7 +55,8 @@
         <img class="fullwidth" src="img/books.png" />
         
         <!-- http://codepen.io/m-e-conroy/pen/bcEsA -->
-        <angled-navbar menus='menus' navfn ='navfn(action)' inverse='inverse'></angled-navbar>
+        <angled-navbar menus='menus' navfn ='navfn(action)' inverse='inverse'>
+        </angled-navbar>
 
         <ol class="breadcrumb">
             <li ng-repeat="cat in choosedCategory.path"
@@ -67,10 +73,11 @@
                 </sidebar>
             </div>
             <div class="col-lg-8 col-md-10">
-                <book-description ng-if="template == 'book-description'" 
-                                  book="openedBook"
-                                  category="choosedCategory"
-                                  on-closed="openSearchResults()"></book-description>
+                <book-description 
+                     ng-if="template == 'book-description'" 
+                     book="openedBook"
+                     category="choosedCategory"
+                     on-closed="openSearchResults()"></book-description>
 
                 <div class="fullwidth row"
                      ng-show="template == 'books-list'">
@@ -91,6 +98,13 @@
                     </form>
                 </div>
 
+                <div class="fullwidth row"
+                     ng-if="template == 'add-new-book'">
+                     <add-newbook
+                        on-closed="openSearchResults()">
+                     </add-newbook>
+                </div>
+
                 <books-list selected-book="openedBook"
                             ng-show="template == 'books-list'" />
             </div>
@@ -99,9 +113,9 @@
 
     <br /><br />
     <div class="fullwidth floatingFooter">
-        <console-footer></console-footer>
+        <console-footer
+            on-addbook="openAddNewBook()"></console-footer>
     </div>
-
 <hr />
 </body>
 </html>

@@ -1,5 +1,5 @@
-﻿<div class="text-center" 
-     ng-if="vm.pagesList.length > 1">
+﻿ <div class="text-center" 
+      ng-if="vm.pagesList.length > 1">
     <nav aria-label="Page navigation">
         <ul class="pagination">
             <li ng-class="{'disabled': !vm.allowBack}">
@@ -20,7 +20,7 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-6 col-md-4 col-lg-3"
+    <div class="col-sm-6 col-md-4 col-lg-3 hand-cursor"
          ng-repeat="book in vm.booksList">
         <div class="thumbnail flexbox"
              ng-click="vm.selectBook(book)">

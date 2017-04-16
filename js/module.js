@@ -1,7 +1,7 @@
 (function (angular) {
     'use strict';
 
-    var app = angular.module('mainModule', ['ui.router', 'ui.bootstrap', 'ngSanitize']);
+    var app = angular.module('mainModule', ['ui.router', 'ui.bootstrap', 'ngSanitize', 'ui.select']);
 
     app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 

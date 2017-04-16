@@ -38,6 +38,7 @@
                 var deferredLangs = loadTable(model, "langs");
                 var deferredPublishers = loadTable(model, "publishers");
                 var deferredSeries = loadTable(model, "series");
+                var deferredMappings = loadTable(model, "mappings");
                 var deferredBooks = loadTable(model, "books");
 
                 // Wait for all to be loaded
@@ -46,7 +47,7 @@
                     deferredAuthors.promise, deferredCategories.promise,
                     deferredStorages.promise, deferredLangs.promise,
                     deferredPublishers.promise, deferredSeries.promise,
-                    deferredBooks.promise
+                    deferredBooks.promise, deferredMappings.promise
                 ];
 
                 ret.promise = $q.all(tables);

@@ -1,0 +1,72 @@
+<h1>Добавление новой книги</h1>
+
+<div class="bs-callout">
+    <p>Существует три пути заполнения каротчки книги: автоматичски по введенному коду ISBN, автоматически по отсканированному коду ISBN (например, web-камерой или телефоном) а также вручную</p>
+    <p>Иногда OZON.ru, с которого мы бережно берем описания книг переименовывает авторов, категории, издателей. В этом случае алгоримты библиотеки попытаются выбрать наиболее подходящие записи. В этом случае строка будет подсвечена красным и будет предложено исправить на другой вариант (если не угадали). Если алгоритмы распознали в новых значениях все что мы уже знали, достаточно лишь сохранить</p>
+    <p>Только полнота введенных полей гарантирует удобство поиска и работы с библиотектой</p>
+</div>
+
+<div class="row table">
+	<div class="col-md-6" ng-class="{ 'bg-warning': vm.bookNotFound}">
+		<h3>Ввод ISBN кода <label class="label label-warning" ng-show="vm.bookNotFound">Не найдено</label></h3>
+		<p>Для автоматического заполнения данных книги, необходимо ввести её ISBN код. Это можно сделать как вручную, так и при помощи Web камеры компьютера либо телефона. Для сканирования при помощи телефона возьмите его, зайдите на этот сайт и нажмите кнопку "Сканировать телефоном" с ЭТОЙ стриницы</p>
+		<span class="collapsable-hint" data-toggle="collapse" data-target="#whereToFind">Где подсмотреть на книге?</span>
+		<div id="whereToFind" class="collapse">
+			<p>На задней стороне книги, на странице с информацией о книге</p>
+		</div>
+
+		<form class="addBook-form">
+            <div class="search-top-wrapper">
+                <input autocomplete="off" maxlength="100"
+                       class="search-top-input"
+                       type="text" value="" placeholder="ISBN"
+                       ng-model="vm.searchIsbnString"
+                >
+            </div>
+            <br>
+            <div class="fullwidth text-center">
+                <button 
+                  type='submit' 
+                  class="btn btn-primary"
+                  ng-disabled="!vm.canAutofillTable()"
+                  ng-click="vm.searchByIsbn()">Заполнить карточку</button>
+                &nbsp;
+                <button 
+                  type='submit' 
+                  class="btn btn-primary"
+                  ng-disabled="!vm.hasPhoneConnected"
+                  ng-click="vm.scanByPhone()">Сканировать телефоном</button>
+            </div>
+        </form>
+	</div>
+	<div class="col-md-6">
+		<h3>Ввод RFID кода</h3>
+		<p>Для связывания книги с RFID меткой возьмите новую RFID метку, наклейте её на задний корешок книги с внутренней стороны и отсканируйте его, положив на сканер либо наведя на него включенный ручной сканер. Также убедитесь, что в нижней части сайта указано его имя.</p>
+		
+    <span class="collapsable-hint" data-toggle="collapse" data-target="#whereToFind">Чем можно сканировать?</span>
+    <div id="whereToFind" class="collapse">
+      <p>Feig USB, Bluetooth сканеры</p>
+    </div>
+
+    <form class="addBook-form">
+            <div class="search-top-wrapper">
+                <input autocomplete="off" maxlength="100"
+                       class="search-top-input"
+                       type="text" value="" placeholder="RFID"
+                       ng-model="vm.searchRfidString"
+                       ng-change="startSearch(searchString)"
+                >
+            </div>
+        </form>
+	</div>
+</div>
+<div class="addBook-description">
+	<new-book	book="vm.openedBook" not-found="vm.bookNotFound"></new-book>
+</div>
+<br>
+<div class="fullwidth text-center">
+    <button 
+      type='submit' 
+      class="btn btn-primary btn-lg"
+      ng-click="vm.finishBookAdd()">Все корректно, сохранить</button>
+</div>

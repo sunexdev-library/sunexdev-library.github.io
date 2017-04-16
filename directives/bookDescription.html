@@ -2,7 +2,7 @@
     Зона описания книги. Используется для описания открытой книги на html странице
 -->
 
-<h2>{{vm.book.getAuthor().Name}} <span ng-click="vm.triggerClosed()">(X)</span></h2>
+<h2>{{vm.book.getAuthor().Name}} <span ng-if="!vm.simpleView" ng-click="vm.triggerClosed()">(X)</span></h2>
 
 <div class="row">
     <div class="col-md-6 book-container row">
@@ -13,6 +13,7 @@
             </div>
             <div ng-if="!vm.book.props">
                 <p>ISBN: {{vm.book.isbn}}</p>
+                <p ng-if="vm.book.hasAuthor()">Автор: {{vm.book.getAuthor().Name}}</p>
                 <p ng-if="vm.book.hasCategory()">Категория: {{vm.book.getCategory().Title}}</p>
                 <p ng-if="vm.book.hasPublisher()">Издание: {{vm.book.getPublisher().Name}}</p>
                 <p ng-if="vm.book.hasLanguage()">Язык: {{vm.book.getLanguage().Name}}</p>
@@ -21,25 +22,33 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 book-description">
+    <div class="col-md-6 book-description" ng-if="vm.simpleView">
+        <h3 ng-if="!vm.book">Описание книги</h3>
+        <p ng-if="vm.book==null"><i>Нет данных для показа</i></p>
+        <h3 ng-if="vm.book">{{vm.book.title}}</h3>
+        <p>{{vm.book.description}}</p>
+    </div>
+    <div class="col-md-6 book-description" ng-if="!vm.simpleView">
         <h3>{{vm.book.title}}</h3>
-        {{vm.book.description}}
+        <p>{{vm.book.description}}</p>
     </div>
 </div>
-<h3 class="attention">Обратите внимание</h3>
-<h4 style="margin-top: 50px; background-color: white;">От того же автора</h4>
-<div class="row">
-    <div class="col-md-2" ng-repeat="book in vm.moreFromAuthor" ng-click="vm.selectBook(book)">
-        <img class="mini-thumbnail" src="http://privlib.alterfin.ru{{book.imageURL}}" alt="{{book.title}}">
-        <p>{{book.getAuthor().Name}}</p>
-        <p class="book-title">{{book.title}}</p>
+<div ng-if="!vm.simpleView">
+    <h3 class="attention">Обратите внимание</h3>
+    <h4 style="margin-top: 50px; background-color: white;">От того же автора</h4>
+    <div class="row">
+        <div class="col-md-2 hand-cursor" ng-repeat="book in vm.moreFromAuthor" ng-click="vm.selectBook(book)">
+            <img class="mini-thumbnail" src="http://privlib.alterfin.ru{{book.imageURL}}" alt="{{book.title}}">
+            <p>{{book.getAuthor().Name}}</p>
+            <p class="book-title">{{book.title}}</p>
+        </div>
     </div>
-</div>
-<h4 style="margin-top: 50px;">Похожее</h4>
-<div class="row">
-    <div class="col-md-2" ng-repeat="book in vm.similarBooks" ng-click="vm.selectBook(book)">
-        <img class="mini-thumbnail" src="http://privlib.alterfin.ru{{book.imageURL}}" alt="{{book.title}}">
-        <p>{{book.getAuthor().Name}}</p>
-        <p class="book-title">{{book.title}}</p>
+    <h4 style="margin-top: 50px;">Похожее</h4>
+    <div class="row">
+        <div class="col-md-2 hand-cursor" ng-repeat="book in vm.similarBooks" ng-click="vm.selectBook(book)">
+            <img class="mini-thumbnail" src="http://privlib.alterfin.ru{{book.imageURL}}" alt="{{book.title}}">
+            <p>{{book.getAuthor().Name}}</p>
+            <p class="book-title">{{book.title}}</p>
+        </div>
     </div>
 </div>

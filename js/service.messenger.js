@@ -4,7 +4,9 @@
         .module('mainModule')
         .factory('messenger', ['events', function (events) {
 
+
         var model = {};
+        window.messenger = model;
 
         model.actions = [];
         model.connected = false;
@@ -21,7 +23,7 @@
                 var parsed = JSON.parse(event.data);
                 if (parsed.Type === "RpcServerCall`1") {
                     var action = parsed.Data.Method;
-                    var callbackStructure = model.__callbacks.filter(function (struct) { return struct.hash === action });
+                    var callbackStructure = model.__callbacks.filter(function (struct) { return struct.hash == action });
                     if (callbackStructure.length > 0) {
                         var callback = callbackStructure[0].callback;
                         callback.call(callback, parsed.Data.Argument);
@@ -34,6 +36,7 @@
 
             model.__socket.onopen = function () {
                 model.connected = true;
+                console.log("[MESSAGE] Connection established");
                 events.onMessage(model, 'onOpened', {
                     message: 'Connection with server established',
                     endpoint: model.address

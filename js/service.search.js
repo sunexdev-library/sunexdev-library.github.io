@@ -31,34 +31,46 @@
                     var descriptions = [];
                     var isbns = [];
 
-                    for (var idx in lib_authors)  if (!isNaN(idx) && lib_authors.hasOwnProperty(idx)) {
-                        var author = lib_authors[idx];
-                        if (author && author.Name.toLowerCase().indexOf(pharse) >= 0) {
-                            authors.push(author);
+                    var words = pharse
+                                .split(',')
+                                .map(function(p){ return p.trim(); })
+                                .filter(function(p){ return p !== ""; });
+
+                    for(var i = 0; i < words.length; i++)
+                    {
+                        var word = words[i];
+
+                        for (var idx in lib_authors)  if (!isNaN(idx) && lib_authors.hasOwnProperty(idx)) {
+                            var author = lib_authors[idx];
+                            if (author && author.Name.toLowerCase().indexOf(word) >= 0) {
+                                authors.push(author);
+                            }
+                        }
+    		
+                        for (var idx in books)  if (!isNaN(idx) && books.hasOwnProperty(idx)) {
+
+                            var book = books[idx];
+
+                            // Lookup in book properties
+                            if (book.title && book.title.toLowerCase().indexOf(word) >= 0) {
+                                titles.push(book);
+                            } else
+                            if(book.isbn && book.isbn.toLowerCase().replace('-','').indexOf(word.replace('-','')) >= 0) {
+                                descriptions.push(book);
+                            } else
+                            if(book.rfid && book.rfid.toLowerCase().replace('-','').indexOf(word.replace('-','')) >= 0) {
+                                descriptions.push(book);
+                            } else
+                            if (book.releaseDate && book.releaseDate.toLowerCase().indexOf(word) >= 0) {
+                                descriptions.push(book);
+                            } else
+                            if (includeDescription && book.description && book.description.toLowerCase().indexOf(word) >= 0) {
+                                descriptions.push(book);
+                            }
                         }
                     }
-		
-                    for (var idx in books)  if (!isNaN(idx) && books.hasOwnProperty(idx)) {
-
-                        var book = books[idx];
-
-                        // Lookup in book properties
-                        if (book.title && book.title.toLowerCase().indexOf(pharse) >= 0) {
-                            titles.push(book);
-                        } else
-                        if(book.isbn && book.isbn.replace('-','').indexOf(pharse.replace('-','')) >= 0) {
-                            isbns.push(book);
-                        } else
-                        if (book.releaseDate && book.releaseDate.indexOf(pharse) >= 0) {
-                            descriptions.push(book);
-                        } else
-                        if (includeDescription && book.description && book.description.toLowerCase().indexOf(pharse) >= 0) {
-                            descriptions.push(book);
-                        }
-                    }
-
+                    
                     results = titles.concat(descriptions);
-
                     if(!skipNotifications) {
                         model.__events.onMessage(model, "onSearchComplete", 
                         { id: 'books', results: results, authors: authors, isbns: isbns });
@@ -79,6 +91,16 @@
                             { id: 'authors', results: results });
                     }   
                     return results;
+                }
+
+                model.searchByAuthorName = function(name) {
+                    var authors = model.__library.authors;
+                    for(var i = 0; i < authors.length; i++) {
+                        if(authors[i] && authors[i].Name.toLowerCase() == name.toLowerCase()) {
+                            return i;
+                        }
+                    }
+                    return undefined;
                 }
 
                 // filters books list by storage id

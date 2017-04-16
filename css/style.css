@@ -34,12 +34,22 @@ body {
     width: 100%;
 }
 
+.push-right {
+    position: absolute;
+    right: 0;
+}
+
 .floatingFooter {
-    padding: 10px; 
+    padding: 7px;
+    height: 50px;
     background-color: #F5F5F5; 
     border-top: 1px solid lightgray; 
     position: fixed; bottom: 0%;
     width: 100%;
+}
+
+.footerText {
+  margin-top:5px; 
 }
 
 .gray {
@@ -131,6 +141,7 @@ nav.main-menu {
 
 .search-top-wrapper {
     border: solid 1px #e1dfdf;
+    background-color: white;
     border-radius: 4px;
     box-shadow: inset 0 1px 3px 0 rgba(0,0,0,0.13);
     height: 72px;
@@ -278,4 +289,34 @@ p.search-results-person {
 p.search-results-person:hover {
     background: #f5f5f5;
     cursor: pointer;  
+}
+
+.hand-cursor {
+    cursor: pointer;
+}
+
+.collapsable-hint {  
+  border-bottom: 1px dashed #999;
+  display: inline;
+  cursor: pointer;
+}
+
+.addBook-form {
+  margin-top: 20px;
+}
+
+.addBook-description {
+  margin: 0 30px;
+}
+
+.bs-callout {
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+
+.bs-callout-warning {
+    border-left-color: #aa6708;
 }

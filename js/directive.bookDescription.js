@@ -12,7 +12,8 @@
             scope: {
                 book: "=",
                 category: "=",
-                onClosed: "&"
+                onClosed: "&",
+                simpleView: "=?"
             },
             templateUrl: 'directives/bookDescription.html',
             bindToController: true,
@@ -36,9 +37,19 @@
                     $('html,body').animate({ scrollTop: $('html,body').offset().top }, "slow");
 
                     // setup refs
-                    vm.moreFromAuthor = vm.book.getAuthor().books.slice(0, 6);
-                    vm.similarBooks = vm.book.getCategory().books.slice(0, 6);
-                    vm.category = vm.book.getCategory();
+                    if(vm.book) {
+                        if(vm.book.getAuthor()) {
+                            vm.moreFromAuthor = vm.book.getAuthor().books.slice(0, 6);
+                        } else {
+                            vm.moreFromAuthor = [];
+                        }
+                        if(vm.book.getCategory()) {
+                            vm.similarBooks = vm.book.getCategory().books.slice(0, 6);
+                        } else {
+                            vm.similarBooks = [];
+                        }
+                        vm.category = vm.book.getCategory();
+                    }
                 }
 
                 vm.triggerClosed = function() {

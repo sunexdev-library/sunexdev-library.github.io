@@ -1,23 +1,25 @@
-﻿<div class="container container-fluid">
-    <div class="btn-toolbar pull-right" role="toolbar">
-        <div class="btn-group dropup">
-            <button type="button" class="btn btn-default">Любой подключенный</button>
-            <button type="button" class="btn btn-default dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="true">
-                <span class="caret"></span> <span class="sr-only">Toggle Dropdown</span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-            </ul>
-        </div>
+﻿<div class="container container-fluid row fullwidth">
+    <div class="col-md-10 footerText">
+        <span>
+            <span>
+                <strong>Соединение с драйвером </strong>
+                <strong ng-if="vm.hasConnection === undefined">...</strong>
+                <label ng-if="vm.hasConnection === false" class="label label-default">не установлено</label>
+                <label ng-if="vm.hasConnection" class="label label-success">установлено</label>
+            </span>
+        </span>    
+        <span ng-if="vm.hasConnection">
+            <span>
+                <strong>, Сканеры: </strong>  
+                <label class="label label-default" ng-if="vm.devices.length==0">не подключены</label>
+                <label class="label label-primary" ng-repeat="device in vm.devices">{{device.DeviceName}}<span ng-if="!$last"> </span></label>
+            </span>
+        </span>
     </div>
-    <div class="btn-group dropup">
-        <span>Соединение с локальным сканером <strong>не установлено</strong></span>
+    <div class="col-md-2 push-right">
+            <label 
+                class="btn btn-primary pull-right" 
+                ng-disabled="!vm.hasConnection"
+                ng-click="vm.onAddbookClicked()">Добавть книгу</label>
     </div>
 </div>
