@@ -5,17 +5,36 @@
     <p>Иногда OZON.ru, с которого мы бережно берем описания книг переименовывает авторов, категории, издателей. В этом случае алгоримты библиотеки попытаются выбрать наиболее подходящие записи. В этом случае строка будет подсвечена красным и будет предложено исправить на другой вариант (если не угадали). Если алгоритмы распознали в новых значениях все что мы уже знали, достаточно лишь сохранить</p>
     <p>Только полнота введенных полей гарантирует удобство поиска и работы с библиотектой</p>
 </div>
-
-<div class="row table">
-	<div class="col-md-6" ng-class="{ 'bg-warning': vm.bookNotFound}">
-		<h3>Ввод ISBN кода <label class="label label-warning" ng-show="vm.bookNotFound">Не найдено</label></h3>
-		<p>Для автоматического заполнения данных книги, необходимо ввести её ISBN код. Это можно сделать как вручную, так и при помощи Web камеры компьютера либо телефона. Для сканирования при помощи телефона возьмите его, зайдите на этот сайт и нажмите кнопку "Сканировать телефоном" с ЭТОЙ стриницы</p>
-		<span class="collapsable-hint" data-toggle="collapse" data-target="#whereToFind">Где подсмотреть на книге?</span>
-		<div id="whereToFind" class="collapse">
-			<p>На задней стороне книги, на странице с информацией о книге</p>
-		</div>
-
-		<form class="addBook-form">
+<table id="new-book-table">
+  <thead>
+    <tr>
+      <td class="col-md-6" 
+          ng-class="{ 'bg-warning': vm.bookNotFound, 'bg-info': vm.loadingBookData, 'bg-success': vm.bookFound }">
+        <h3>Ввод ISBN кода 
+          <i ng-show="vm.loadingBookData" class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+          <i ng-show="vm.bookFound" class="fa fa-check" aria-hidden="true"></i>
+          <label class="label label-warning" ng-show="vm.bookNotFound">Не найдено</label>
+        </h3>
+      </td>
+      <td class="col-md-6"
+          ng-class="{ 'bg-success': vm.rfidFound }">  
+        <h3>Ввод RFID кода
+          <i ng-show="vm.rfidFound" class="fa fa-check" aria-hidden="true"></i></h3>
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td ng-class="{ 'bg-warning': vm.bookNotFound, 'bg-info': vm.loadingBookData, 'bg-success': vm.bookFound }">
+        <p>Для автоматического заполнения данных книги, необходимо ввести её ISBN код. Это можно сделать как вручную, так и при помощи Web камеры компьютера либо телефона. Для сканирования при помощи телефона возьмите его, зайдите на этот сайт и нажмите кнопку "Сканировать телефоном" с ЭТОЙ стриницы</p>
+      </td>
+      <td ng-class="{ 'bg-success': vm.rfidFound }">
+        <p>Для связывания книги с RFID меткой возьмите новую RFID метку, наклейте её на задний корешок книги с внутренней стороны и отсканируйте его, положив на сканер либо наведя на него включенный ручной сканер. Также убедитесь, что в нижней части сайта указано его имя.</p>
+      </td>
+    </tr>
+    <tr>
+      <td ng-class="{ 'bg-warning': vm.bookNotFound, 'bg-info': vm.loadingBookData, 'bg-success': vm.bookFound }">
+        <form class="addBook-form">
             <div class="search-top-wrapper">
                 <input autocomplete="off" maxlength="100"
                        class="search-top-input"
@@ -38,17 +57,9 @@
                   ng-click="vm.scanByPhone()">Сканировать телефоном</button>
             </div>
         </form>
-	</div>
-	<div class="col-md-6">
-		<h3>Ввод RFID кода</h3>
-		<p>Для связывания книги с RFID меткой возьмите новую RFID метку, наклейте её на задний корешок книги с внутренней стороны и отсканируйте его, положив на сканер либо наведя на него включенный ручной сканер. Также убедитесь, что в нижней части сайта указано его имя.</p>
-		
-    <span class="collapsable-hint" data-toggle="collapse" data-target="#whereToFind">Чем можно сканировать?</span>
-    <div id="whereToFind" class="collapse">
-      <p>Feig USB, Bluetooth сканеры</p>
-    </div>
-
-    <form class="addBook-form">
+      </td>
+      <td ng-class="{ 'bg-success': vm.rfidFound }">
+        <form class="addBook-form">
             <div class="search-top-wrapper">
                 <input autocomplete="off" maxlength="100"
                        class="search-top-input"
@@ -58,15 +69,19 @@
                 >
             </div>
         </form>
-	</div>
-</div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 <div class="addBook-description">
-	<new-book	book="vm.openedBook" not-found="vm.bookNotFound"></new-book>
+	<new-book disabled="vm.loadingBookData" book="vm.openedBook" not-found="vm.bookNotFound"></new-book>
 </div>
 <br>
 <div class="fullwidth text-center">
     <button 
       type='submit' 
       class="btn btn-primary btn-lg"
+      ng-disabled="!vm.rfidFound || !vm.bookFound"
       ng-click="vm.finishBookAdd()">Все корректно, сохранить</button>
 </div>

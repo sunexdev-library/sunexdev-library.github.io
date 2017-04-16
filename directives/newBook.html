@@ -1,11 +1,19 @@
 <h2>Карточка книги</h2>
 <form class="form-horizontal">
 
+  <!-- Изображение -->
+  <div class="form-group">
+    <label for="img-newbook" class="col-sm-2 control-label">Обложка:</label>
+    <div class="col-sm-10">
+      <img id="img-newbook" src="{{vm.book.ImageUri}}" >
+    </div>
+  </div>
+
   <!-- Название -->
   <div class="form-group">
     <label for="title-newbook" class="col-sm-2 control-label">Название:</label>
     <div class="col-sm-10">
-      <input id="title-newbook" class="form-control" ng-model="vm.book.Title" >
+      <input ng-disabled="vm.disabled" id="title-newbook" class="form-control" ng-model="vm.book.Title" >
     </div>
   </div>
 
@@ -13,7 +21,7 @@
   <div class="form-group">
     <label for="description-newbook" class="col-sm-2 control-label">Описание:</label>
     <div class="col-sm-10">
-      <textarea class="form-control" id="description-newbook" rows="5" ng-model="vm.book.Description" ></textarea>
+      <textarea ng-disabled="vm.disabled" class="form-control" id="description-newbook" rows="5" ng-model="vm.book.Description" ></textarea>
     </div>
   </div>
 
@@ -21,7 +29,7 @@
   <div class="form-group">
     <label for="isbn-newbook" class="col-sm-2 control-label">ISBN:</label>
     <div class="col-sm-10">
-      <input id="isbn-newbook" class="form-control" ng-model="vm.book.Isbn">
+      <input ng-disabled="vm.disabled" id="isbn-newbook" class="form-control" ng-model="vm.book.Isbn">
     </div>
   </div>
 
@@ -29,7 +37,7 @@
   <div class="form-group" ng-class="{'has-error bg-danger': vm.selectedAuthor.dirty}">
     <label for="author-newbook" class="col-sm-2 control-label">Автор:</label>
     <div class="col-sm-10">
-        <ui-select id="author-newbook" theme="bootstrap" ng-model="vm.selectedAuthor">
+        <ui-select ng-disabled="vm.disabled" id="author-newbook" theme="bootstrap" ng-model="vm.selectedAuthor">
             <ui-select-match placeholder="Выберите автора">
             	{{vm.selectedAuthor.Name}}
             </ui-select-match>
@@ -44,7 +52,7 @@
   <div class="form-group" ng-class="{'has-error bg-danger': vm.selectedCategory.dirty}">
     <label for="cat-newbook" class="col-sm-2 control-label">Категория:</label>
     <div class="col-sm-10">
-        <ui-select id="cat-newbook" theme="bootstrap" ng-model="vm.selectedCategory">
+        <ui-select ng-disabled="vm.disabled" id="cat-newbook" theme="bootstrap" ng-model="vm.selectedCategory">
             <ui-select-match placeholder="Выберите категорию">
             	{{vm.selectedCategory.Name}}
             </ui-select-match>
@@ -59,7 +67,7 @@
   <div class="form-group" ng-class="{'has-error bg-danger': vm.selectedStorage.dirty}">
     <label for="storage-newbook" class="col-sm-2 control-label">Хранение:</label>
     <div class="col-sm-10">
-        <ui-select id="storage-newbook" theme="bootstrap" ng-model="vm.selectedStorage">
+        <ui-select ng-disabled="vm.disabled" id="storage-newbook" theme="bootstrap" ng-model="vm.selectedStorage">
             <ui-select-match placeholder="Выберите место хранения">
             	{{vm.selectedStorage.Name}}
             </ui-select-match>
@@ -74,7 +82,7 @@
   <div class="form-group" ng-class="{'has-error bg-danger': vm.selectedPublisher.dirty}">
     <label for="publisher-newbook" class="col-sm-2 control-label">Издательство:</label>
     <div class="col-sm-10">
-        <ui-select id="publisher-newbook" theme="bootstrap" ng-model="vm.selectedPublisher">
+        <ui-select ng-disabled="vm.disabled" id="publisher-newbook" theme="bootstrap" ng-model="vm.selectedPublisher">
             <ui-select-match placeholder="Выберите издательство">
             	{{vm.selectedPublisher.Name}}
             </ui-select-match>
@@ -89,7 +97,7 @@
   <div class="form-group" ng-class="{'has-error bg-danger': vm.selectedLanguage.dirty}">
     <label for="lang-newbook" class="col-sm-2 control-label">Язык:</label>
     <div class="col-sm-10">
-        <ui-select id="lang-newbook" theme="bootstrap" ng-model="vm.selectedLanguage">
+        <ui-select ng-disabled="vm.disabled" id="lang-newbook" theme="bootstrap" ng-model="vm.selectedLanguage">
             <ui-select-match placeholder="Выберите язык произведения">
             	{{vm.selectedLanguage.Name}}
             </ui-select-match>
@@ -104,7 +112,7 @@
   <div class="form-group" ng-class="{'has-error bg-danger': vm.selectedSeries.dirty}">
     <label for="series-newbook" class="col-sm-2 control-label">Серия:</label>
     <div class="col-sm-10">
-        <ui-select id="series-newbook" theme="bootstrap" ng-model="vm.selectedSeries">
+        <ui-select ng-disabled="vm.disabled" id="series-newbook" theme="bootstrap" ng-model="vm.selectedSeries">
             <ui-select-match placeholder="Выберите серию если есть">
             	{{vm.selectedSeries.Name}}
             </ui-select-match>

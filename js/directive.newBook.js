@@ -65,7 +65,7 @@
             restrict: 'E',
             scope: {
                 book: "=",
-                notFound: "=",
+                disabled: "=",
                 onClosed: "&"
             },
             templateUrl: 'directives/newBook.html',

@@ -26,22 +26,27 @@
                     vm.searchIsbnString = "";
                     vm.searchRfidString = "";
                     vm.bookNotFound = false;
+                    vm.bookFound = false;
                     vm.hasPhoneConnected = false;
                     vm.loadingBookData = false;
                     vm.openedBook = null;
+                    vm.rfidFound = false;
 
                     events.subscribe(tagsSource, 'onTagReceived', function(data) {
                                 vm.searchRfidString = data.Tag;
+                                vm.rfidFound = true;
                                 $scope.$apply();
                             });
                     
                     vm.searchByIsbn = function() {
                         vm.loadingBookData = true;
                         vm.bookNotFound = false;
+                        vm.bookFound = false; 
                         messenger.rpCall("DownloadByIsbn", [vm.searchIsbnString], function (book) {
                             if(book) {
                                 let unpacked = angular.extend(vm.mapEntity(book), vm.mapEntity(book.Other));
                                 vm.openedBook = unpacked; 
+                                vm.bookFound = true;
                             } else {
                                 vm.bookNotFound = true;
                                 vm.openedBook = null;
