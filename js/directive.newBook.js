@@ -5,11 +5,11 @@
         .module('mainModule')
         .directive('newBook', newBook)
         .factory('bestMatch', function() {
-            return function(items, props) {
+            return function(items, compareObject) {
                 var out = [];
 
                 if (angular.isArray(items)) {
-                  var keys = Object.keys(props);
+                  var properties = Object.keys(compareObject);
 
                   // for each element in array
                   items.forEach(function(item) {
@@ -17,26 +17,34 @@
                     var fullMatch = true;
 
                     // for each property
-                    for (var i = 0; i < keys.length; i++) {
-                      var prop = keys[i];
+                    for (var i = 0; i < properties.length; i++) {
+                      var prop = properties[i];
                       var campareWith = item[prop].toString().toLowerCase();
-                      var text = props[prop].toLowerCase();
+                      var text = compareObject[prop].toLowerCase();
                       var parts = text.split(' ')
+                                    .filter(function(x){return !!x;})
+                                    .map(function(x){return x.toLowerCase();});
+                      var cmpWithParts = campareWith.split(' ')
                                     .filter(function(x){return !!x;})
                                     .map(function(x){return x.toLowerCase();});
 
                       for(var ind = 0; ind < parts.length; ind++) {
-                         var search = parts[ind];
-                         if (campareWith === search) {
-                            totalMatches = totalMatches + search.length * 2;
-                         } else
-                         {
-                             var pos = campareWith.indexOf(search);
-                             if (pos >= 0) {
-                                totalMatches = totalMatches + search.length + (pos === 0 ? 10 : 0);
+                          for(var jnd = 0; jnd < cmpWithParts.length; jnd++) {
+
+                             var search = parts[ind];
+                             var cmpWith = cmpWithParts[jnd];
+
+                             if (cmpWith === search) {
+                                totalMatches = totalMatches + 10 + search.length * 2;
+                             } else
+                             {
+                                 var pos = cmpWith.indexOf(search);
+                                 if (pos >= 0) {
+                                    totalMatches = totalMatches + search.length + (pos === 0 ? 10 : 0);
+                                    fullMatch = false;
+                                 } 
                              }
-                             fullMatch = false;
-                         }
+                          }
                       }
                     }
 
@@ -149,7 +157,7 @@
                         return best[0].item;
                     }
 
-                    return {Name: item, dirty: true};
+                    return {Name: item, dirty: item !== ""};
                 }
 
                 vm.getAuthors = function() {

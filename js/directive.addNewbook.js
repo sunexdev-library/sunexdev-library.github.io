@@ -109,60 +109,72 @@
 
                         // Author
                         if(!selectedAuthor.id) {
-                            author_id = vm.__library.addRowToTable('authors', {Name: selectedAuthor.Name});
+                            if(selectedAuthor.Name !== "") {
+                                author_id = vm.__library.addRowToTable('authors', {Name: selectedAuthor.Name});
+                            } 
                         } else {
                             author_id = selectedAuthor.id; 
                         }
 
                         // Category
                         if(!selectedCategory.id) {
-                            category_id = vm.__library.addRowToTable('categories', {
-                                    Name: selectedCategory.Name,
-                                    Title: selectedCategory.Name,
-                                    Ordering: 0,
-                                    Access: 0,
-                                    Parent_id: 0
-                                });
+                            if(selectedCategory.Name !== "") {
+                                category_id = vm.__library.addRowToTable('categories', {
+                                        Name: selectedCategory.Name,
+                                        Title: selectedCategory.Name,
+                                        Ordering: 0,
+                                        Access: 0,
+                                        Parent_id: 0
+                                    });
+                            }
                         } else {
                             category_id = selectedCategory.id; 
                         }
 
                         // Storage
                         if(!selectedStorage.id) {
-                            storage_id = vm.__library.addRowToTable('storages', {
-                                    Name: selectedStorage.Name
-                                });
+                            if(selectedStorage.Name !== "") {
+                                storage_id = vm.__library.addRowToTable('storages', {
+                                        Name: selectedStorage.Name
+                                    });
+                            }
                         } else {
                             storage_id = selectedStorage.id; 
                         }
 
                         // Publisher
                         if(!selectedPublisher.id) {
-                            publisher_id = vm.__library.addRowToTable('publishers', {
-                                    Name: selectedPublisher.Name,
-                                    Fullname: selectedPublisher.Name,
-                                    Logo: "",
-                                    Address: "Россия",
-                                    About: ""
-                                });
+                            if(selectedPublisher.Name !== "") {
+                                publisher_id = vm.__library.addRowToTable('publishers', {
+                                        Name: selectedPublisher.Name,
+                                        Fullname: selectedPublisher.Name,
+                                        Logo: "",
+                                        Address: "Россия",
+                                        About: ""
+                                    });
+                            }
                         } else {
                             publisher_id = selectedPublisher.id; 
                         }
                         
                         // Language 
                         if(!selectedLanguage.id) {
-                            language_id = vm.__library.addRowToTable('langs', {
-                                    Name: selectedLanguage.Name
-                                });
+                            if(selectedLanguage.Name !== "") {
+                                language_id = vm.__library.addRowToTable('langs', {
+                                        Name: selectedLanguage.Name
+                                    });
+                            }
                         } else {
                             language_id = selectedLanguage.id; 
                         }  
 
                         // Series
                         if(!selectedSeries.id) {
-                            series_id = vm.__library.addRowToTable('series', {
-                                    Name: selectedSeries.Name
-                                });
+                            if(selectedSeries.Name !== "") {
+                                series_id = vm.__library.addRowToTable('series', {
+                                        Name: selectedSeries.Name
+                                    });
+                            }
                         } else {
                             series_id = selectedSeries.id; 
                         }
