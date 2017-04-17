@@ -1,4 +1,4 @@
-﻿(function(angular) {
+(function(angular) {
     'use strict';
 
     angular
@@ -10,6 +10,7 @@
 
                 var model = this;
                 model.__log = log;
+                model.__fb = firebase;
                 model.mappings = {};
                 model.books = [];
                 model.authors = [];
@@ -143,6 +144,21 @@
                             cat.path = path;
                         }
                     }
+                }
+
+                model.addRowToTable = function(table, object) {
+                    var db = model.__fb.data.db;
+                    var max_index = -1;
+                    if(table === "books") {
+                        model[table].forEach(function(x, i){ max_index = i; });
+                    } else {
+                        model[table].forEach(function(x){ max_index = Math.max(max_index, x.id);});
+                    }
+                    var index = max_index+1;
+                    var updates = {};
+                    updates['/'+table+'/' + index] = object;
+                    db.ref().update(updates);
+                    return index;
                 }
 
                 model.rootCategories = function() {

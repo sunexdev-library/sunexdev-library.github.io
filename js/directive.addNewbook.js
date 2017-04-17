@@ -31,6 +31,7 @@
                     vm.loadingBookData = false;
                     vm.openedBook = null;
                     vm.rfidFound = false;
+                    vm.internal = null;
 
                     events.subscribe(tagsSource, 'onTagReceived', function(data) {
                                 vm.searchRfidString = data.Tag;
@@ -85,6 +86,109 @@
                         }
 
                         return mapped;
+                    }
+
+                    vm.finishBookAdd = function() {
+
+                        var selectedAuthor = vm.internal.selectedAuthor;
+                        var selectedCategory = vm.internal.selectedCategory;
+                        var selectedStorage = vm.internal.selectedStorage;
+                        var selectedPublisher = vm.internal.selectedPublisher;
+                        var selectedLanguage = vm.internal.selectedLanguage;
+                        var selectedSeries = vm.internal.selectedSeries;    
+
+                        var author_id, category_id, storage_id, publisher_id, language_id, series_id;
+
+                        console.log("Saving new book:");
+                        console.log("selectedAuthor:"); console.log(selectedAuthor);
+                        console.log("selectedCategory:"); console.log(selectedCategory);
+                        console.log("selectedStorage:"); console.log(selectedStorage);
+                        console.log("selectedPublisher:"); console.log(selectedPublisher);
+                        console.log("selectedLanguage:"); console.log(selectedLanguage);
+                        console.log("selectedSeries:"); console.log(selectedSeries);
+
+                        // Author
+                        if(!selectedAuthor.id) {
+                            author_id = vm.__library.addRowToTable('authors', {Name: selectedAuthor.Name});
+                        } else {
+                            author_id = selectedAuthor.id; 
+                        }
+
+                        // Category
+                        if(!selectedCategory.id) {
+                            category_id = vm.__library.addRowToTable('categories', {
+                                    Name: selectedCategory.Name,
+                                    Title: selectedCategory.Name,
+                                    Ordering: 0,
+                                    Access: 0,
+                                    Parent_id: 0
+                                });
+                        } else {
+                            category_id = selectedCategory.id; 
+                        }
+
+                        // Storage
+                        if(!selectedStorage.id) {
+                            storage_id = vm.__library.addRowToTable('storages', {
+                                    Name: selectedStorage.Name
+                                });
+                        } else {
+                            storage_id = selectedStorage.id; 
+                        }
+
+                        // Publisher
+                        if(!selectedPublisher.id) {
+                            publisher_id = vm.__library.addRowToTable('publishers', {
+                                    Name: selectedPublisher.Name,
+                                    Fullname: selectedPublisher.Name,
+                                    Logo: "",
+                                    Address: "Россия",
+                                    About: ""
+                                });
+                        } else {
+                            publisher_id = selectedPublisher.id; 
+                        }
+                        
+                        // Language 
+                        if(!selectedLanguage.id) {
+                            language_id = vm.__library.addRowToTable('langs', {
+                                    Name: selectedLanguage.Name
+                                });
+                        } else {
+                            language_id = selectedLanguage.id; 
+                        }  
+
+                        // Series
+                        if(!selectedSeries.id) {
+                            series_id = vm.__library.addRowToTable('series', {
+                                    Name: selectedSeries.Name
+                                });
+                        } else {
+                            series_id = selectedSeries.id; 
+                        }
+
+                        var book = {
+                            Authors: "",
+                            Bookid: vm.searchRfidString,
+                            Comment: vm.internal.book.Description,
+                            Id_author: author_id,
+                            Id_cat: category_id,
+                            Id_language: language_id,
+                            Id_publisher: publisher_id,
+                            Id_series: series_id,
+                            Id_store: storage_id,
+                            ImageURL: vm.internal.book.ImageUri,
+                            Isbn: vm.internal.book.Isbn,
+                            Language: "",
+                            Manufacturer: "",
+                            Ordering: 0,
+                            Release_Date: vm.internal.book.ReleaseDate,
+                            Series: "",
+                            Title: vm.internal.book.Title,
+                            URL: ""
+                        };
+
+                        vm.__library.addRowToTable('books', book);                        
                     }
                 }
             ]

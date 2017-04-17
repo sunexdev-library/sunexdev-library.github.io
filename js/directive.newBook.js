@@ -56,7 +56,7 @@
               };
         })
         .filter('propsFilter', ['bestMatch', function(bestMatch) {
-           return function(x, y) { bestMatch(x, y).map(function(x) { return x.item; }); }
+           return function(x, y) { return bestMatch(x, y).map(function(x) { return x.item; }); }
         }]);
 
     function newBook() {
@@ -65,6 +65,7 @@
             restrict: 'E',
             scope: {
                 book: "=",
+                internal: "=",
                 disabled: "=",
                 onClosed: "&"
             },
@@ -73,6 +74,7 @@
             link: function(scope) {
                 scope.$watch('vm.book',
                     function () {
+                        scope.vm.internal['internal'] = scope.vm;
                         scope.vm.refresh();
                     });
             },
@@ -101,17 +103,17 @@
                 }
 
                 vm.refresh = function () {
-                    console.log("[NEW BOOK] Got from Ozon parser:");
-                    console.log(vm.book); 
+                    if(vm.book) {
+                        console.log("[NEW BOOK] Got from Ozon parser:");
+                        console.log(vm.book); 
 
-                    vm.selectedAuthor = vm.getMatchedOrDefault(vm.getAuthors(), vm.book.Author);
-                    vm.selectedPublisher = vm.getMatchedOrDefault(vm.getPublishers(), vm.book.Publisher);
-                    vm.selectedLanguage = vm.getMatchedOrDefault(vm.getLanguages(), vm.book.Language);
-                    vm.selectedSeries = vm.getMatchedOrDefault(vm.getLanguages(), vm.book.Series);
-                    vm.selectedCategory = vm.getMatchedFromManyOrDefault(vm.getCategories(), vm.book.Categories);
-                    vm.selectedStorage = vm.getMatchedOrDefault(vm.getStorages(), "рентгена");
-                    
-                    
+                        vm.selectedAuthor = vm.getMatchedOrDefault(vm.getAuthors(), vm.book.Author);
+                        vm.selectedPublisher = vm.getMatchedOrDefault(vm.getPublishers(), vm.book.Publisher);
+                        vm.selectedLanguage = vm.getMatchedOrDefault(vm.getLanguages(), vm.book.Language);
+                        vm.selectedSeries = vm.getMatchedOrDefault(vm.getLanguages(), vm.book.Series);
+                        vm.selectedCategory = vm.getMatchedFromManyOrDefault(vm.getCategories(), vm.book.Categories);
+                        vm.selectedStorage = vm.getMatchedOrDefault(vm.getStorages(), "рентгена");
+                    }
                 }
 
                 vm.hasDirties = function() {
@@ -212,6 +214,10 @@
 
                 vm.triggerClosed = function() {
                     vm.onClosed();
+                }
+
+                vm.finishBookAdd = function() {
+
                 }
             }]
         }
