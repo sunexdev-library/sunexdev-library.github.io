@@ -1,0 +1,17 @@
+
+<div class="container">
+  <form class="form-signin">
+    <h2 class="form-signin-heading">Пожалуйста, введите свои данные</h2>
+    <label for="inputEmail" class="sr-only">Адрес электронной почты</label>
+    <input type="email" class="form-control" placeholder="Электропочта" required="" ng-model="vm.username" autofocus="">
+    <label for="inputPassword" class="sr-only">Пароль</label>
+    <input type="password" class="form-control" placeholder="Пароль" ng-model="vm.password" required="">
+    <button class="btn btn-lg btn-primary btn-block" ng-click="vm.login()">Войти</button>
+    <div class="bs-callout" ng-if="vm.wrongPassword">
+      <p>
+        Имя пользователя или пароль введены не правильно. Пожалуйста, исправьтесь и попробуйте снова
+      </p>
+    </div>
+  </form>
+
+</div>

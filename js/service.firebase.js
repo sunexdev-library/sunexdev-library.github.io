@@ -63,6 +63,14 @@
                     return ref.putString("data:image/png;base64," + encodedImage, 'data_url');
                 }
 
+                ret.getIsAuthenticated = function() {
+                    return firebase.auth().currentUser != null;
+                }
+
+                ret.signin = function (username, password) {
+                    return firebase.auth().signInWithEmailAndPassword(username, password);
+                }
+
                 /*
                  *  Load table from firebase by its name
                  */

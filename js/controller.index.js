@@ -11,7 +11,8 @@
         var TMPs = {
             BOOKS_LIST: "books-list",
             BOOK_DESCRIPTION: "book-description",
-            ADD_NEW_BOOK: "add-new-book"
+            ADD_NEW_BOOK: "add-new-book",
+            SIGNIN: "signin"
         }
 
         var model = $scope;
@@ -21,7 +22,7 @@
             templateUrl: 'directives/searchPopup.html',
             title: 'Title'
         };
-        model.template = TMPs.BOOKS_LIST;
+        model.template = TMPs.SIGNIN;
         model.tagsSource = tagsSource;
         model.db = library;
         model.cache = cache.data;
@@ -29,6 +30,7 @@
         model.__firebase = firebase;
         model.openedBook = null;
         model.choosedCategory = null;
+        model.isSignedIn = false;
         model.authors = [];
 
         
@@ -154,6 +156,13 @@
         }
 
         model.openSearchResults = function() {
+            if(model.isSignedIn) {
+                model.template = TMPs.BOOKS_LIST;
+            }
+        }
+
+        model.signedIn = function() {
+            model.isSignedIn = true;
             model.template = TMPs.BOOKS_LIST;
         }
 
