@@ -32,7 +32,7 @@
         model.choosedCategory = null;
         model.isSignedIn = false;
         model.authors = [];
-
+        model.hasDesktopConnected = false;
         
         model.menus = []; // end menus
         model.navfn = function (action) {
@@ -45,6 +45,19 @@
             if (model.openedBook) {
                 model.selectBook();
             }
+        });
+
+        firebase.sendSyncMessage('phone-connected');
+        events.subscribe(firebase, 'onSyncMessage', function(data) {
+            if(data === 'desktop-connected') {
+                firebase.sendSyncMessage('phone-connected');
+                model.hasDesktopConnected = true;
+                console.log('[SCAN] Desktop connected');
+            }
+            if(data == 'phone-startscan') {
+                console.log('[SCAN] Start scan');
+            }
+            $scope.$apply();
         });
 
         events.subscribe(search, "onSearchComplete", function (res) {

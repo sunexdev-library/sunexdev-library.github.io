@@ -34,11 +34,25 @@
                     vm.rfidFound = false;
                     vm.internal = null;
 
+                    firebase.sendSyncMessage('desktop-connected');
+                    events.subscribe(firebase, 'onSyncMessage', function(data) {
+                        if(data === 'phone-connected') {
+                            vm.hasPhoneConnected = true;
+                            console.log('[SCAN] Phone connected');
+                        }
+                        $scope.$apply();
+                    });
+
                     events.subscribe(tagsSource, 'onTagReceived', function(data) {
-                                vm.searchRfidString = data.Tag;
-                                vm.rfidFound = true;
-                                $scope.$apply();
-                            });
+                        vm.searchRfidString = data.Tag;
+                        vm.rfidFound = true;
+                        $scope.$apply();
+                    });
+
+                    vm.scanByPhone = function() {
+                        console.log('[SCAN] Start scan');
+                        firebase.sendSyncMessage('phone-startscan');
+                    }
                     
                     vm.searchByIsbn = function() {
                         vm.loadingBookData = true;
