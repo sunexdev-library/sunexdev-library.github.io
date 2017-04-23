@@ -87,10 +87,11 @@
                     });
             },
             controllerAs: 'vm',
-            controller: ['$window', 'library', 'bestMatch', function ($window, library, bestMatch) {
+            controller: ['$window', 'library', 'firebase', 'bestMatch', function ($window, library, firebase, bestMatch) {
                 var vm = this;
                 vm.$window = $window;
                 vm.__library = library;
+                vm.__firebase = firebase;
                 vm.__bestMatch = bestMatch;
                 vm.authors = [];
                 vm.categories = [];
@@ -131,6 +132,12 @@
                            vm.selectedSeries.dirty ||
                            vm.selectedCategory.dirty ||
                            vm.selectedStorage.dirty;
+                }
+
+                vm.getImageContents = function() {
+                    if(vm.book) {
+                        return "data:image/png;base64," + vm.book.ImageUri;
+                    }
                 }
                 
                 vm.getMatchedFromManyOrDefault = function(arr, items) {

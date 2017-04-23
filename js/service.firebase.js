@@ -58,6 +58,11 @@
                     model.events.onMessage(ret, "onTablesLoadingDone");
                 });
 
+                ret.uploadImage = function(id, encodedImage) {
+                    var ref = firebase.storage().ref("imgs/"+id);
+                    return ref.putString("data:image/png;base64," + encodedImage, 'data_url');
+                }
+
                 /*
                  *  Load table from firebase by its name
                  */

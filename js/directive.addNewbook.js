@@ -17,11 +17,12 @@
             bindToController: true,
             controllerAs: 'vm',
             controller: ['$scope', 'events', 'messenger', 'search', 'library', 'firebase', 'tagsSource', 'bestMatch', 
-                function ($scope, events, messenger, search, library, firebird, tagsSource, bestMatch) {
+                function ($scope, events, messenger, search, library, firebase, tagsSource, bestMatch) {
                     var vm = this;
                     vm.__scope = $scope;
                     vm.__search = search;
                     vm.__library = library;
+                    vm.__firebase = firebase;
                     vm.__bestMatch = bestMatch;
                     vm.searchIsbnString = "";
                     vm.searchRfidString = "";
@@ -97,7 +98,7 @@
                         var selectedLanguage = vm.internal.selectedLanguage;
                         var selectedSeries = vm.internal.selectedSeries;    
 
-                        var author_id, category_id, storage_id, publisher_id, language_id, series_id;
+                        var author_id=0, category_id=0, storage_id=0, publisher_id=0, language_id=0, series_id=0;
 
                         console.log("Saving new book:");
                         console.log("selectedAuthor:"); console.log(selectedAuthor);
@@ -179,28 +180,32 @@
                             series_id = selectedSeries.id; 
                         }
 
-                        var book = {
-                            Authors: "",
-                            Bookid: vm.searchRfidString,
-                            Comment: vm.internal.book.Description,
-                            Id_author: author_id,
-                            Id_cat: category_id,
-                            Id_language: language_id,
-                            Id_publisher: publisher_id,
-                            Id_series: series_id,
-                            Id_store: storage_id,
-                            ImageURL: vm.internal.book.ImageUri,
-                            Isbn: vm.internal.book.Isbn,
-                            Language: "",
-                            Manufacturer: "",
-                            Ordering: 0,
-                            Release_Date: vm.internal.book.ReleaseDate,
-                            Series: "",
-                            Title: vm.internal.book.Title,
-                            URL: ""
-                        };
+                        vm.__firebase.uploadImage(vm.searchRfidString, vm.internal.book.ImageUri)
+                            .then(function(snapshot){
+                                var book = {
+                                    Authors: "",
+                                    Bookid: vm.searchRfidString,
+                                    Comment: vm.internal.book.Description,
+                                    Id_author: author_id,
+                                    Id_cat: category_id,
+                                    Id_language: language_id,
+                                    Id_publisher: publisher_id,
+                                    Id_series: series_id,
+                                    Id_store: storage_id,
+                                    ImageURL: snapshot.downloadURL,
+                                    Isbn: vm.internal.book.Isbn,
+                                    Language: "",
+                                    Manufacturer: "",
+                                    Ordering: 0,
+                                    Release_Date: vm.internal.book.ReleaseDate,
+                                    Series: "",
+                                    Title: vm.internal.book.Title,
+                                    URL: ""
+                                };
 
-                        vm.__library.addRowToTable('books', book);                        
+                                vm.__library.addRowToTable('books', book);
+                                vm.onClosed();
+                            });
                     }
                 }
             ]

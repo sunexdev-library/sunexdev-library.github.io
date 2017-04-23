@@ -24,7 +24,7 @@
          ng-repeat="book in vm.booksList">
         <div class="thumbnail flexbox"
              ng-click="vm.selectBook(book)">
-            <img src="http://privlib.alterfin.ru{{book.imageURL}}" alt="{{book.title}}">
+            <img src="{{vm.getImageUrl(book.imageURL)}}" alt="{{book.title}}">
             <div class="caption">
                 <h3>{{book.getAuthor().Name}}</h3>
                 <p class="book-title">{{book.title}}</p>

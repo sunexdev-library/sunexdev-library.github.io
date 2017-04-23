@@ -52,6 +52,14 @@
                     }
                 }
 
+                vm.getImageUrl = function(url) {
+                    if(url.indexOf("http")>=0) {
+                        return url;
+                    }
+
+                    return "http://privlib.alterfin.ru" + url;
+                }
+
                 vm.triggerClosed = function() {
                     vm.onClosed();
                 }

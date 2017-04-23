@@ -64,6 +64,14 @@
                         vm.allowNext = idx !== (vm.pagesList.length - 1);
                         vm.booksList = vm.wholeList.slice(startIdx, startIdx + vm.booksPerPage);
                     }
+                    
+                    vm.getImageUrl = function(url) {
+                        if(url.indexOf("http")>=0) {
+                            return url;
+                        }
+
+                        return "http://privlib.alterfin.ru" + url;
+                    }
 
                     vm.selectBook = function(book) {
                         vm.selectedBook = book;
