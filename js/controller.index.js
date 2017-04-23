@@ -47,7 +47,6 @@
             }
         });
 
-        firebase.sendSyncMessage('phone-connected');
         events.subscribe(firebase, 'onSyncMessage', function(data) {
             if(data === 'desktop-connected') {
                 firebase.sendSyncMessage('phone-connected');
@@ -56,6 +55,9 @@
             }
             if(data == 'phone-startscan') {
                 console.log('[SCAN] Start scan');
+            }
+            if(data == 'init') {
+                firebase.sendSyncMessage('phone-connected');
             }
             $scope.$apply();
         });

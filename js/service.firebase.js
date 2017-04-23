@@ -86,6 +86,9 @@
                     var ref = data.ref;
                     var value = data.val();
                     if(model.lastSend != value.id) {
+                        if(!model.lastSend) {
+                            model.events.onMessage(ret, "onSyncMessage", 'init');
+                        }
                         model.lastSend = value.id;
                         model.events.onMessage(ret, "onSyncMessage", value.message);
                     }
