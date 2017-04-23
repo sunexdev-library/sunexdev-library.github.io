@@ -12,7 +12,8 @@
             BOOKS_LIST: "books-list",
             BOOK_DESCRIPTION: "book-description",
             ADD_NEW_BOOK: "add-new-book",
-            SIGNIN: "signin"
+            SIGNIN: "signin",
+            PHONESCAN: "phone-scan"
         }
 
         var model = $scope;
@@ -54,6 +55,7 @@
                 console.log('[SCAN] Desktop connected');
             }
             if(data == 'phone-startscan') {
+                model.template = TMPs.PHONESCAN;
                 console.log('[SCAN] Start scan');
             }
             if(data == 'init') {

@@ -17,6 +17,7 @@
     <script type="text/javascript" src="external/angular-ui-select.js"></script>
     <script type="text/javascript" src="external/angular-sanitize.min.js"></script>
     <script type="text/javascript" src="external/ui-bootstrap.min.js"></script>
+    <script type="text/javascript" src="external/quagga.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/jquery-ui.css">
     <link rel="stylesheet" href="css/barcode.css">
@@ -33,6 +34,7 @@
     <script type="text/javascript" src="js/service.cache.js"></script>
     <script type="text/javascript" src="js/service.search.js"></script>
     <script type="text/javascript" src="js/directive.signin.js"></script>
+    <script type="text/javascript" src="js/directive.phoneScan.js"></script>
     <script type="text/javascript" src="js/directive.angledNavbar.js"></script>
     <script type="text/javascript" src="js/directive.booksList.js"></script>
     <script type="text/javascript" src="js/directive.newBook.js"></script>
@@ -56,8 +58,10 @@
 
     <signin ng-show="template == 'signin'" on-signin="signedIn()"></signin>
 
+    <phonescan ng-show="template == 'phone-scan'"></phonescan>
+
     <div class="container-fluid"
-         ng-show="template != 'signin'">
+         ng-show="template != 'signin' && template != 'phone-scan'">
 
         <img class="fullwidth" src="img/books.png" />
         

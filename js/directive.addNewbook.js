@@ -40,6 +40,10 @@
                             vm.hasPhoneConnected = true;
                             console.log('[SCAN] Phone connected');
                         }
+                        if(data.code) {
+                            vm.searchIsbnString = data.code;
+                            vm.searchByIsbn();
+                        }
                         $scope.$apply();
                     });
 
