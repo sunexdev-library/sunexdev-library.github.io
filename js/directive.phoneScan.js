@@ -17,8 +17,8 @@
             controller: ['$window', 'firebase', '$scope', function ($window, firebase, $scope) {
                 var vm = this;
                 vm.__firebase = firebase;
-                
                 vm._scanner = null;
+                
                 vm.init = function() {
                     vm.attachListeners();
                 }

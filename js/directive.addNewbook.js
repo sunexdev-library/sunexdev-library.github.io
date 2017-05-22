@@ -24,6 +24,7 @@
                     vm.__library = library;
                     vm.__firebase = firebase;
                     vm.__bestMatch = bestMatch;
+                    
                     vm.searchIsbnString = "";
                     vm.searchRfidString = "";
                     vm.bookNotFound = false;
@@ -39,6 +40,9 @@
                         if(data === 'phone-connected') {
                             vm.hasPhoneConnected = true;
                             console.log('[SCAN] Phone connected');
+                        }
+                        if(data === 'init') {
+                            firebase.sendSyncMessage('desktop-connected');
                         }
                         if(data.code) {
                             vm.searchIsbnString = data.code;

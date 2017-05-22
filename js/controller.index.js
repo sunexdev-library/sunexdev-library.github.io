@@ -63,6 +63,7 @@
             }
             $scope.$apply();
         });
+        firebase.sendSyncMessage('init');
 
         events.subscribe(search, "onSearchComplete", function (res) {
             model.openSearchResults();

@@ -25,11 +25,14 @@
                 };
                 window.__firebase = ret;
 
+                model.lastSend = 0;
                 model.dataLoaded = false;
                 model.events = $events;
                 model.db = firebase.database();
                 model.names = [];
                 model.authors = { data: [] };
+
+                // sync messaging
                 model.sync = model.db.ref("sync");
                 model.sync.on("value", onSyncValue);
 
@@ -85,12 +88,16 @@
                 function onSyncValue(data) {
                     var ref = data.ref;
                     var value = data.val();
+                    
                     if(model.lastSend != value.id) {
-                        if(!model.lastSend) {
-                            model.events.onMessage(ret, "onSyncMessage", 'init');
-                        }
+                        // if(!model.lastSend) {
+                        //    model.events.onMessage(ret, "onSyncMessage", 'init');
+                        // }
                         model.lastSend = value.id;
-                        model.events.onMessage(ret, "onSyncMessage", value.message);
+                        
+                        if(model.lastSend) {
+                            model.events.onMessage(ret, "onSyncMessage", value.message);
+                        }
                     }
                     console.log(value);
                 }
