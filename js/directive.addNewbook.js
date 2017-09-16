@@ -23,6 +23,7 @@
                     vm.__search = search;
                     vm.__library = library;
                     vm.__firebase = firebase;
+                    vm.__messenger = messenger;
                     vm.__bestMatch = bestMatch;
                     
                     vm.searchIsbnString = "";
@@ -66,7 +67,7 @@
                         vm.loadingBookData = true;
                         vm.bookNotFound = false;
                         vm.bookFound = false; 
-                        messenger.rpCall("DownloadByIsbn", [vm.searchIsbnString], function (book) {
+                        vm.__messenger.rpCall("DownloadByIsbn", [vm.searchIsbnString], function (book) {
                             if(book) {
                                 let unpacked = angular.extend(vm.mapEntity(book), vm.mapEntity(book.Other));
                                 vm.openedBook = unpacked; 
