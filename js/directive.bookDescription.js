@@ -24,11 +24,19 @@
                     });
             },
             controllerAs: 'vm',
-            controller: ['$window', 'messenger', function ($window, messenger) {
+            controller: ['$window', 'messenger', 'events', 'tagsSource', function ($window, messenger, events, tagsSource) {
                 var vm = this;
+                vm._events = events;
+                vm._tagsSource = tagsSource;
                 vm._messenger = messenger;
                 vm.$window = $window;
-                playFoundSound();
+                
+                vm._events.subscribe(vm._tagsSource, 'onTagReceived', function(data) {
+                    if(vm.book.rfid == data.Tag) {
+                        playFoundSound();
+                    }
+                });
+
                 vm.selectBook = function (newBook) {
                     vm.book = newBook;
                 }
@@ -57,7 +65,6 @@
                     if(url.indexOf("http")>=0) {
                         return url;
                     }
-
                     return "http://privlib.alterfin.ru" + url;
                 }
 
