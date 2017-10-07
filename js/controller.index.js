@@ -118,7 +118,7 @@
                 $scope.$apply();
             }
         });
-
+        
         initializeWorkWithCache();
 
         function initializeWorkWithCache() {

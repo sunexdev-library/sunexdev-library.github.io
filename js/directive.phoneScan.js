@@ -32,6 +32,7 @@
                         .toPromise()
                         .then(function(result) {
                             document.querySelector('input.isbn').value = result.codeResult.code;
+                            firebase.sendSyncMessage({msg:'gotIsbn', value: result.codeResult.code});
                         })
                         .catch(function() {
                             document.querySelector('input.isbn').value = "Not Found";

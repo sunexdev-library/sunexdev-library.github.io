@@ -45,8 +45,8 @@
                         if(data === 'init') {
                             firebase.sendSyncMessage('desktop-connected');
                         }
-                        if(data.code) {
-                            vm.searchIsbnString = data.code;
+                        if(data.msg == 'gotIsbn' && data.value) {
+                            vm.searchIsbnString = data.value;
                             vm.searchByIsbn();
                         }
                         $scope.$apply();

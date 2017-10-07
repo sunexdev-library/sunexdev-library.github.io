@@ -12,7 +12,7 @@
             <span>
                 <strong>, Сканеры: </strong>  
                 <label class="label label-default" ng-if="vm.devices.length==0">не подключены</label>
-                <label class="label label-primary" ng-repeat="device in vm.devices">{{device.DeviceName}}<span ng-if="!$last"> </span></label>
+                <label class="label label-primary" ng-repeat="device in vm.devices">{{device.DeviceName}}<span ng-if="!$last">&nbsp;</span></label>
             </span>
         </span>
     </div>
