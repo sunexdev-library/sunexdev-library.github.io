@@ -24,10 +24,11 @@
                     });
             },
             controllerAs: 'vm',
-            controller: ['$window', function ($window) {
+            controller: ['$window', 'messenger', function ($window, messenger) {
                 var vm = this;
+                vm._messenger = messenger;
                 vm.$window = $window;
-
+                playFoundSound();
                 vm.selectBook = function (newBook) {
                     vm.book = newBook;
                 }
@@ -62,6 +63,13 @@
 
                 vm.triggerClosed = function() {
                     vm.onClosed();
+                }
+
+                function playFoundSound() {
+                    var sound = new Howl({
+                      src: ['ding.mp3']
+                    });
+                    sound.play();
                 }
             }]
         }

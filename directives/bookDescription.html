@@ -19,6 +19,7 @@
                 <p ng-if="vm.book.hasLanguage()">Язык: {{vm.book.getLanguage().Name}}</p>
                 <p ng-if="vm.book.hasSeries()">Серия: {{vm.book.getSeries().Name}}</p>
                 <p ng-if="vm.book.hasStorages()">Хранение: {{vm.book.getStorages().Name}}</p>
+                <label class="btn btn-primary" ng-disabled="!vm._messenger.connected">Найти на полках</label>
             </div>
         </div>
     </div>
