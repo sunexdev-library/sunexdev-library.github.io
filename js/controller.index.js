@@ -48,6 +48,7 @@
             }
         });
 
+        // Todo: Cross device communication
         events.subscribe(firebase, 'onSyncMessage', function(data) {
             if(data === 'desktop-connected') {
                 firebase.sendSyncMessage('phone-connected');
@@ -96,29 +97,36 @@
             $scope.$apply();
         });
 
+        // Book lookup event: tag received
         events.subscribe(tagsSource, 'onTagReceived', function(data) {
-            if(model.template !== TMPs.BOOKS_LIST) {
-                return;
-            }
+            if(model.template === TMPs.BOOKS_LIST) {
+                if(model.searchString) {
+                    model.searchString = model.searchString + ", " + data.Tag;
+                } else {
+                    model.searchString = data.Tag;
+                }
 
-            if(model.searchString) {
-                model.searchString = model.searchString + ", " + data.Tag;
-            } else {                
-                model.searchString = data.Tag;
-            }
-            
-            model.startSearch(model.searchString);
-            $scope.$apply();
-        });
-
-        events.subscribe(tagsSource, 'onTagLost', function(data) {
-            if(model.searchString && model.searchString.trim() !== "") {
-                model.searchString = model.searchString.replace(", "+data.Tag, "").replace(data.Tag, "");
                 model.startSearch(model.searchString);
                 $scope.$apply();
             }
         });
-        
+
+        // Book lookup event: tag lost
+        events.subscribe(tagsSource, 'onTagLost', function(data) {
+            if(model.searchString && model.searchString.trim() !== "") {
+                model.searchString = model.searchString.replace(", "+data.Tag, "").replace(data.Tag, "");
+                if(model.template === TMPs.BOOKS_LIST) {
+                    model.startSearch(model.searchString);
+                    $scope.$apply();
+                }
+            }
+        });
+
+        // Getting search strings when lookuping by Ids
+        events.subscribe(model.__search, 'onSearchComplete', function(data) {
+            model.searchString = data.searchString;
+        });
+
         initializeWorkWithCache();
 
         function initializeWorkWithCache() {
@@ -132,14 +140,31 @@
             });
         }
 
+        function sumBooks(submenu) {
+            let sum = submenu.category.books.length;
+            if(submenu.menu) {
+                for (var idx in submenu.menu) {
+                    sum = sum + sumBooks(submenu.menu[idx]);
+                }
+            }
+            return sum;
+        }
+
         function buildCategoriesMenu(menu, categories) {
 
             for (var idx in categories) {
                 var child = categories[idx];
 
-                var submenu = {
+                let submenu = {
                     title: child.Title,
-                    action: child.id
+                    category: child,
+                    action: child.id,
+                    getCount: function() {
+                        if(submenu.category.books) {
+                            return sumBooks(submenu);
+                        }
+                        return 0;
+                    }
                 };
 
                 if (child.children) {
@@ -159,7 +184,7 @@
                 console.log(bookInfo);
             });
         }
-        
+
         model.startSearch = function (str) {
             model.__search.searchInBooks(str, true);
         }

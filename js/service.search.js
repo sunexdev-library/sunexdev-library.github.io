@@ -73,7 +73,7 @@
                     results = titles.concat(descriptions);
                     if(!skipNotifications) {
                         model.__events.onMessage(model, "onSearchComplete", 
-                        { id: 'books', results: results, authors: authors, isbns: isbns });
+                        { id: 'books', searchString: pharse, results: results, authors: authors, isbns: isbns });
                     }
                     return results;
                 }
@@ -88,7 +88,7 @@
                     }
                     if(!skipNotifications) {
                         model.__events.onMessage(model, "onSearchComplete",
-                            { id: 'authors', results: results });
+                            { id: 'authors', searchString: authors[id].Name, results: results });
                     }   
                     return results;
                 }
@@ -112,7 +112,7 @@
                     }
                     if(!skipNotifications) {
                          model.__events.onMessage(model, "onSearchComplete", 
-                            { id: 'storages', results: results }
+                            { id: 'storages', searchString: storages[id].Name, results: results }
                             );
                     }
                     return results;
@@ -148,7 +148,7 @@
 
                     if(!skipNotifications) {
                         model.__events.onMessage(model, "onSearchComplete", 
-                            { id: 'categories', category: initial, results: results });
+                            { id: 'categories', searchString: categories[id].Title, category: initial, results: results });
                     }
                     return results;
                 }
@@ -162,7 +162,7 @@
                     }
                     if(!skipNotifications) {
                         model.__events.onMessage(model, "onSearchComplete", 
-                            { id: 'languages', results: results });
+                            { id: 'languages', searchString: languages[id].Name, results: results });
                     }
                     return results;
                 }
@@ -176,7 +176,7 @@
                     }
                     if(!skipNotifications) {
                         model.__events.onMessage(model, "onSearchComplete", 
-                            { id: 'publishers', results: results });
+                            { id: 'publishers', searchString: publishers[id].Name, results: results });
                     }
                     return results;
                 }
@@ -191,7 +191,7 @@
 
                     if(!skipNotifications) {
                         model.__events.onMessage(model, "onSearchComplete", 
-                            { id: 'series', results: results });
+                            { id: 'series', searchString: series[id].Name, results: results });
                     }
                     return results;
                 }
@@ -200,7 +200,7 @@
                     if (!skipNotifications) {
                         var packed = list.map(function (b) { return model.__library.packBook(b); });
                         model.__events.onMessage(model, "onSearchComplete",
-                            { id: 'books', results: packed });
+                            { id: 'books', searchString: "", results: packed });
                     }
                     return list;
                 }

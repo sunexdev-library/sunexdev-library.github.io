@@ -2,7 +2,7 @@
     Зона описания книги. Используется для описания открытой книги на html странице
 -->
 
-<h2>{{vm.book.getAuthor().Name}} <span ng-if="!vm.simpleView" ng-click="vm.triggerClosed()">(X)</span></h2>
+<h2>{{vm.book.getAuthor().Name}} <span ng-if="!vm.simpleView" ng-click="vm.triggerClosed()" class="hand-cursor">(X)</span></h2>
 
 <div class="row">
     <div class="col-md-6 book-container row">
