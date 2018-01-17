@@ -31,10 +31,11 @@
                 model.db = firebase.database();
                 model.names = [];
                 model.authors = { data: [] };
+                model.uniqueClientId = new Date().getUTCMilliseconds();
 
                 // sync messaging
                 model.sync = model.db.ref("sync");
-                model.sync.on("value", onSyncValue);
+                model.sync.on("child_added", onSyncValue);
 
                 // Start loading tables
                 var deferredStats = loadTable(model, "cache");
@@ -78,26 +79,19 @@
                 }
 
                 ret.sendSyncMessage = function(msg) {
-                    model.lastSend = model.lastSend + 1;
-                    model.db.ref("sync").set({
-                        id: model.lastSend,
-                        message: msg
-                    });
+                    debugger;
+                    let ref = model.db.ref("sync").push();
+                    ref.set({from: model.uniqueClientId, to: null, message: msg});
                 }
 
                 function onSyncValue(data) {
                     var ref = data.ref;
                     var value = data.val();
                     
-                    if(model.lastSend != value.id) {
-                        // if(!model.lastSend) {
-                        //    model.events.onMessage(ret, "onSyncMessage", 'init');
-                        // }
-                        model.lastSend = value.id;
-                        
-                        if(model.lastSend) {
-                            model.events.onMessage(ret, "onSyncMessage", value.message);
-                        }
+                    if( model.uniqueClientId != value.to && 
+                        model.uniqueClientId != value.from ) {
+
+                        model.events.onMessage(ret, "onSyncMessage", value.message);
                     }
                     console.log(value);
                 }
