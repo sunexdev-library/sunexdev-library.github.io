@@ -35,7 +35,11 @@
 
                 // sync messaging
                 model.sync = model.db.ref("sync");
-                model.sync.on("child_added", onSyncValue);
+                model.sync_cache = [];
+                model.sync.once("value", function(data) {
+                    model.sync_cache = data.val();
+                    model.sync.on("child_added", onSyncValue);
+                });
 
                 // Start loading tables
                 var deferredStats = loadTable(model, "cache");
@@ -79,7 +83,6 @@
                 }
 
                 ret.sendSyncMessage = function(msg) {
-                    debugger;
                     let ref = model.db.ref("sync").push();
                     ref.set({from: model.uniqueClientId, to: null, message: msg});
                 }
@@ -87,9 +90,10 @@
                 function onSyncValue(data) {
                     var ref = data.ref;
                     var value = data.val();
-                    
+
                     if( model.uniqueClientId != value.to && 
-                        model.uniqueClientId != value.from ) {
+                        model.uniqueClientId != value.from &&
+                        !model.sync_cache[ref.getKey()]) {
 
                         model.events.onMessage(ret, "onSyncMessage", value.message);
                     }
