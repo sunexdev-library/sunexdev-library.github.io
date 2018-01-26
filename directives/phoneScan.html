@@ -1,8 +1,18 @@
-<form>
-    <div class="input-field">
-        <label for="isbn_input">EAN:</label>
-        <input id="isbn_input" class="isbn" type="text" />
-        <button type="button" class="icon-barcode button scan">&nbsp;</button>
-        <input type="file" id="file" capture/>
+<div class="container row"  style="text-align:center;">
+    <div class="col-lg-8 phone-scan-centered">
+        <br>
+        <h2 class="form-signin-heading">Сканирование камерой</h2>
+        <br>
+        <form>
+            <div class="input-field">
+                <div class="search-top-wrapper">
+                    <input id="isbn_input" class="search-top-input isbn" type="text" value="" placeholder="После сканирования ISBN появится здесь"/>
+                </div>
+                <br/>
+                <label class="btn btn-primary btn-large">
+                    Открыть либо Сфотографировать <input type="file" id="file" hidden>
+                </label>
+            </div>
+        </form>
     </div>
-</form>
+</div>

@@ -44,14 +44,7 @@
                 
                 vm.attachListeners = function() {
                     var self = vm,
-                        button = document.querySelector('.input-field input + .button.scan'),
-                        fileInput = document.querySelector('.input-field input[type=file]');
-
-                    button.addEventListener("click", function onClick(e) {
-                        e.preventDefault();
-                        button.removeEventListener("click", onClick);
-                        document.querySelector('.input-field input[type=file]').click();
-                    });
+                        fileInput = document.querySelector('input[type=file]');
 
                     fileInput.addEventListener("change", function onChange(e) {
                         e.preventDefault();
