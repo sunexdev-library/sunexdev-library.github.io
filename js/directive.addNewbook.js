@@ -58,6 +58,16 @@
                         $scope.$apply();
                     });
 
+                    vm.allFilled = function() {
+                        let authExists = !!vm.selectedAuthor && !!vm.internal.selectedAuthor.Name,
+                            catExists = !!vm.internal.selectedCategory && !!vm.internal.selectedCategory.Name,
+                            storExists = !!vm.internal.selectedStorage && !!vm.internal.selectedStorage.Name,
+                            pubExists = !!vm.internal.selectedPublisher && !!vm.internal.selectedPublisher.Name,
+                            lngExists = !!vm.internal.selectedLanguage && !!vm.internal.selectedLanguage.Name,
+                            serExists = !!vm.internal.selectedSeries && !!vm.internal.selectedSeries.Name;
+                        return authExists && catExists && pubExists && lngExists && serExists;
+                    }
+
                     vm.scanByPhone = function() {
                         console.log('[SCAN] Start scan');
                         firebase.sendSyncMessage('phone-startscan');
@@ -67,18 +77,22 @@
                         vm.loadingBookData = true;
                         vm.bookNotFound = false;
                         vm.bookFound = false; 
-                        vm.__messenger.rpCall("DownloadByIsbn", [vm.searchIsbnString], function (book) {
-                            if(book) {
-                                let unpacked = angular.extend(vm.mapEntity(book), vm.mapEntity(book.Other));
-                                vm.openedBook = unpacked; 
-                                vm.bookFound = true;
-                            } else {
-                                vm.bookNotFound = true;
-                                vm.openedBook = null;
-                            }
-                            vm.loadingBookData = false;
-                            vm.__scope.$apply();              
-                        });
+                        try {
+                            vm.__messenger.rpCall("DownloadByIsbn", [vm.searchIsbnString], function (book) {
+                                if(book) {
+                                    let unpacked = angular.extend(vm.mapEntity(book), vm.mapEntity(book.Other));
+                                    vm.openedBook = unpacked; 
+                                    vm.bookFound = true;
+                                } else {
+                                    vm.bookNotFound = true;
+                                    vm.openedBook = null;
+                                }
+                                vm.loadingBookData = false;
+                                vm.__scope.$apply();              
+                            });
+                        } catch (error) {
+                            console.error('Have troubles when trying to download book info by isbn');
+                        }
                     }
 
                     vm.canAutofillTable = function() {

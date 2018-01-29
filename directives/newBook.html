@@ -39,9 +39,9 @@
     <div class="col-sm-10">
         <ui-select ng-disabled="vm.disabled" id="author-newbook" theme="bootstrap" ng-model="vm.selectedAuthor">
             <ui-select-match placeholder="Выберите автора">
-            	{{vm.selectedAuthor.Name}}
+                {{vm.selectedAuthor.Name}}
             </ui-select-match>
-            <ui-select-choices repeat="info in vm.getAuthors() | propsFilter: {Name: $select.search}">
+            <ui-select-choices repeat="info in vm.getAuthors($select.search) | propsFilter: {Name: $select.search}">
                 {{info.Name}}
             </ui-select-choices>
         </ui-select>
@@ -56,7 +56,7 @@
             <ui-select-match placeholder="Выберите категорию">
             	{{vm.selectedCategory.Name}}
             </ui-select-match>
-            <ui-select-choices repeat="info in vm.getCategories() | propsFilter: {Name: $select.search}">
+            <ui-select-choices repeat="info in vm.getCategories($select.search) | propsFilter: {Name: $select.search}">
                 {{info.Name}}
             </ui-select-choices>
         </ui-select>
@@ -71,7 +71,7 @@
             <ui-select-match placeholder="Выберите место хранения">
             	{{vm.selectedStorage.Name}}
             </ui-select-match>
-            <ui-select-choices repeat="info in vm.getStorages() | propsFilter: {Name: $select.search}">
+            <ui-select-choices repeat="info in vm.getStorages($select.search) | propsFilter: {Name: $select.search}">
                 {{info.Name}}
             </ui-select-choices>
         </ui-select>
@@ -86,7 +86,7 @@
             <ui-select-match placeholder="Выберите издательство">
             	{{vm.selectedPublisher.Name}}
             </ui-select-match>
-            <ui-select-choices repeat="info in vm.getPublishers() | propsFilter: {Name: $select.search}">
+            <ui-select-choices repeat="info in vm.getPublishers($select.search) | propsFilter: {Name: $select.search}">
                 {{info.Name}}
             </ui-select-choices>
         </ui-select>
@@ -101,7 +101,7 @@
             <ui-select-match placeholder="Выберите язык произведения">
             	{{vm.selectedLanguage.Name}}
             </ui-select-match>
-            <ui-select-choices repeat="info in vm.getLanguages() | propsFilter: {Name: $select.search}">
+            <ui-select-choices repeat="info in vm.getLanguages($select.search) | propsFilter: {Name: $select.search}">
                 {{info.Name}}
             </ui-select-choices>
         </ui-select>
@@ -116,7 +116,7 @@
             <ui-select-match placeholder="Выберите серию если есть">
             	{{vm.selectedSeries.Name}}
             </ui-select-match>
-            <ui-select-choices repeat="info in vm.getSeries() | propsFilter: {Name: $select.search}">
+            <ui-select-choices repeat="info in vm.getSeries($select.search) | propsFilter: {Name: $select.search}">
                 {{info.Name}}
             </ui-select-choices>
         </ui-select>

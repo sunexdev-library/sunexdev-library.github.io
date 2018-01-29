@@ -8,18 +8,18 @@
             return function(items, compareObject) {
                 var out = [];
 
-                if (angular.isArray(items)) {
+                if (angular.isArray(items) && items.length > 0) {
                   var properties = Object.keys(compareObject);
 
                   // for each element in array
                   items.forEach(function(item) {
                     var totalMatches = 0;
                     var fullMatch = true;
-
+                    var simplify = function(x){return x ? x : "";}
                     // for each property
                     for (var i = 0; i < properties.length; i++) {
                       var prop = properties[i];
-                      var campareWith = item[prop].toString().toLowerCase();
+                      var campareWith = simplify(item[prop]).toString().toLowerCase();
                       var text = compareObject[prop].toLowerCase();
                       var parts = text.split(' ')
                                     .filter(function(x){return !!x;})
@@ -57,7 +57,7 @@
 
                 } else {
                   // Let the output be the input untouched
-                  out = items.map(function(x){ return {matches:0, item: x, fullMatch: false}; });
+                  return [{item: items}];
                 }
 
                 return out;
@@ -167,46 +167,56 @@
                     return {Name: item, dirty: item !== ""};
                 }
 
-                vm.getAuthors = function() {
+                vm.addIfNotExists = function(arr, val) {
+                    for (var i = arr.length - 1; i >= 0; i--) {
+                        if(arr[i].Name === val) {
+                            return arr;
+                        }
+                    }
+                    
+                    return arr.unshift({Name:val, dirty:true});
+                }
+
+                vm.getAuthors = function(searchString) {
                     if(vm.authors.length==0) {
                         vm.authors = findUniques(vm.__library.authors, 'Name');
                     }
-                    return vm.authors;
+                    return vm.addIfNotExists(vm.authors, searchString);
                 }
 
-                vm.getCategories = function() {
+                vm.getCategories = function(searchString) {
                     if(vm.categories.length==0) {
                         vm.categories = findUniques(vm.__library.categories, 'Name'); 
                     }
-                    return vm.categories;
+                    return vm.addIfNotExists(vm.categories, searchString);
                 }
 
-                vm.getStorages = function() {
+                vm.getStorages = function(searchString) {
                     if(vm.storages.length==0) {
                         vm.storages = findUniques(vm.__library.storages, 'Name'); 
                     }
-                    return vm.storages;
+                    return vm.addIfNotExists(vm.storages, searchString);
                 }
 
-                vm.getPublishers = function() {
+                vm.getPublishers = function(searchString) {
                     if(vm.publishers.length==0) {
                         vm.publishers = findUniques(vm.__library.publishers, 'Name');
                     }
-                    return vm.publishers;
+                    return vm.addIfNotExists(vm.publishers, searchString);
                 }
 
-                vm.getLanguages = function() {
+                vm.getLanguages = function(searchString) {
                     if(vm.languages.length==0) {
                         vm.languages = findUniques(vm.__library.langs, 'Name');
                     }
-                    return vm.languages;
+                    return vm.addIfNotExists(vm.languages, searchString);
                 }
                 
-                vm.getSeries = function() {
+                vm.getSeries = function(searchString) {
                     if(vm.series.length==0) {
                         vm.series = findUniques(vm.__library.series, 'Name');
                     }
-                    return vm.series;
+                    return vm.addIfNotExists(vm.series, searchString);
                 }
 
                 function findUniques(arr, prop) {

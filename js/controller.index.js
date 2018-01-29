@@ -100,12 +100,13 @@
         // Book lookup event: tag received
         events.subscribe(tagsSource, 'onTagReceived', function(data) {
             if(model.template === TMPs.BOOKS_LIST) {
-                if(model.searchString) {
+                if(model.searchString && data.PermanentScanning !== true) {
                     model.searchString = model.searchString + ", " + data.Tag;
                 } else {
                     model.searchString = data.Tag;
                 }
-
+                
+                events.onMessage(null, "onPopupShouldBeClosed");
                 model.startSearch(model.searchString);
                 $scope.$apply();
             }
@@ -113,8 +114,10 @@
 
         // Book lookup event: tag lost
         events.subscribe(tagsSource, 'onTagLost', function(data) {
-            if(model.searchString && model.searchString.trim() !== "") {
-                model.searchString = model.searchString.replace(", "+data.Tag, "").replace(data.Tag, "");
+            if(model.searchString && model.searchString.trim() !== "" && data.PermanentScanning === true) {
+                model.searchString = model.searchString
+                    .replace(", "+data.Tag, "").replace(data.Tag, "")
+                    .replace(", "+data.Tag.toLowerCase(), "").replace(data.Tag.toLowerCase(), "");
                 if(model.template === TMPs.BOOKS_LIST) {
                     model.startSearch(model.searchString);
                     $scope.$apply();

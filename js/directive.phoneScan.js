@@ -48,7 +48,7 @@
 
                     fileInput.addEventListener("change", function onChange(e) {
                         e.preventDefault();
-                        fileInput.removeEventListener("change", onChange);
+                        // fileInput.removeEventListener("change", onChange);
                         if (e.target.files && e.target.files.length) {
                             vm.decode(e.target.files[0]);
                         }

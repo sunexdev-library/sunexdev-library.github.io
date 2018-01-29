@@ -371,6 +371,10 @@ body.signin {
   border-top-right-radius: 0;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 .phone-scan-centered {
     margin-left: 0px;
     margin-right: 0px;
