@@ -141,6 +141,11 @@
                 }
                 
                 vm.getMatchedFromManyOrDefault = function(arr, items) {
+
+                    if(!items) {
+                        items = [];
+                    }
+
                     for (var i = items.length - 1; i >= 0; i--) {
                         var match = vm.getMatchedOrDefault(arr, items[i]);
                         if(!match.dirty) {
@@ -150,6 +155,8 @@
                             return match;
                         }
                     }
+
+                    return [];
                 }
 
                 vm.getMatchedOrDefault = function(arr, item) {

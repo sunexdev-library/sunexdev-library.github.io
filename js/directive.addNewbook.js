@@ -59,7 +59,7 @@
                     });
 
                     vm.allFilled = function() {
-                        let authExists = !!vm.selectedAuthor && !!vm.internal.selectedAuthor.Name,
+                        let authExists = !!vm.internal.selectedAuthor && !!vm.internal.selectedAuthor.Name,
                             catExists = !!vm.internal.selectedCategory && !!vm.internal.selectedCategory.Name,
                             storExists = !!vm.internal.selectedStorage && !!vm.internal.selectedStorage.Name,
                             pubExists = !!vm.internal.selectedPublisher && !!vm.internal.selectedPublisher.Name,
